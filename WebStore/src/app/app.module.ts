@@ -13,8 +13,12 @@ import { HomeHeaderComponent }   from './Headers/home-header.component';
 import { MainMenuComponent }   from './MainMenu/main-menu.component';
 
 
+
+
 //catalog
 import { CatalogBoard }   from './Catalog/CatalogBoard/catalog-board.component';
+
+import { CustomFooterComponent }   from './Footer/custom-footer.component';
 
 const appRoutes: Routes =[
   { path: '', component: HomeComponent},
@@ -29,8 +33,10 @@ const appRoutes: Routes =[
     HomeComponent,
     HomeHeaderComponent,
 
-    CatalogBoard
+    CatalogBoard,
 
+
+    CustomFooterComponent
   ],
   imports: [
     BrowserModule, FormsModule, RouterModule.forRoot(appRoutes)
