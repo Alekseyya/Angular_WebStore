@@ -1,0 +1,41 @@
+
+
+.shop-data__shop{
+    padding: 0;
+}
+.shop-data__phone{
+    padding: 0;
+}
+.shop-data__phone-img{
+    padding: 0;
+}
+.shop-data__phone-phone{
+    padding: 10 0 0 0;
+}
+
+.shop-data__phone-img img{
+    height: 20px;
+    width: 20px;
+}
+
+.authentication-zone{
+    display: flex;
+    align-items: center;
+}
+.authentication-zone__register{
+    padding: 0;    
+}
+ .authentication-zone__login{
+    padding: 0;
+    display: flex;
+    justify-content: center;    
+}
+.authentication-zone__login-button{
+    background-color: blue;
+
+}
+
+.authentication-zone__login-button img{
+    width: 14px;
+    height: 14px;
+}
