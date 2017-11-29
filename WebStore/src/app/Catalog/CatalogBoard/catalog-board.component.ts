@@ -1,31 +1,56 @@
 import { Component} from '@angular/core';
 import { Product } from '../../Entities/product';
+import { Mark } from '../../Entities/mark';
 import { ProductService} from '../../Services/product.service';
+import { MarkService} from '../../Services/mark.service';
 import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
 
 @Component({
   selector: 'catalog-board',
   templateUrl: './catalog-board.component.html',
   styleUrls: ['./catalog-board.component.css'],
-  providers: [ProductService]
+  providers: [ProductService, MarkService]
 })
 export class CatalogBoard implements OnInit {
+ 
+  BootstrapColumn ="col-md-3";
 
-  Products: Product[] = [];
+  Products: Array<Product> = [];
   Product: Product;
 
-  constructor(private productService: ProductService){
-    
+  MarksColumn: Array<Array<Mark>> = [];
+  Mark: Mark;
+
+  constructor(private productService: ProductService, private markService: MarkService ){
   }
 
-  ngOnInit() {   
-        this.productService.GetProducts().subscribe((data:Array<Product>)=>{
-          console.log(data);  
+  ngOnInit() {  
+        this.markService.GetMarks().subscribe((data:Array<Mark>)=>{
+          let tmpListMarks = Array<Mark>();
           for(let item of data){
-            this.Products.push(new Product(item.Name, item.Descriptions,
-              item.Price, item.Count));
-          }
-        });        
+            tmpListMarks.push(new Mark(item.Name));
+          }          
+          this.MarksColumn= this.BreackUpColumns(10,tmpListMarks);
+        });         
       }
+
+  BreackUpColumns(numbersInColumn:number, marks: Array<Mark>): Array<Array<Mark>> {
+    let doubleArray = new Array<Array<Mark>>();
+    let tmpArray: Array<Mark> = [];
+    let counter = 0;    
+    for (let mark of marks) {
+      counter++;
+      
+      if(counter<=10){
+        tmpArray.push(mark);
+      }
+      if(counter==10){
+        counter = 0;
+        doubleArray.push(tmpArray);
+        tmpArray = new Array<Mark>();
+      }
+    }
+    return doubleArray;
+  }
  }
 

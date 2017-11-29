@@ -1,24 +1,10 @@
-<div class="container">    
-    <div class="catalog row">
-        <ul class="col-md-3">
-            <li>Acura</li>
-            <li>Alfa Romeo</li>            
-        </ul>
-        <ul class="col-md-3">
-            <li>Dodge</li>
-            <li>Fiat</li>
-        </ul>
-        <ul class="col-md-3">
-            <li>Jeep</li>
-            <li>Kia</li>
-            <li>Land Rover</li>           
-            <li>Yayas</li>
-        </ul>
-        <ul class="col-md-3">
-            <li>Opel</li>
-            <li>Pontiac</li>
-            <li *ngFor="let product of Products">{{product.Name}}</li>
-        </ul>
+<div class="container">        
+    <div class="catalog row">        
+        <div *ngFor="let column of MarksColumn; let i = index">
+            <ul [class]="BootstrapColumn">
+                <li *ngFor="let mark of column">{{mark.Name}}</li>
+            </ul>
+        </div>
         
     </div>
 </div>
