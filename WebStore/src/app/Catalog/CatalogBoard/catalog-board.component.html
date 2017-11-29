@@ -1,8 +1,8 @@
-<div class="container">
+<div class="container">    
     <div class="catalog row">
         <ul class="col-md-3">
             <li>Acura</li>
-            <li>Alfa Romeo</li>
+            <li>Alfa Romeo</li>            
         </ul>
         <ul class="col-md-3">
             <li>Dodge</li>
@@ -11,11 +11,14 @@
         <ul class="col-md-3">
             <li>Jeep</li>
             <li>Kia</li>
-            <li>Land Rover</li>
+            <li>Land Rover</li>           
+            <li>Yayas</li>
         </ul>
         <ul class="col-md-3">
             <li>Opel</li>
             <li>Pontiac</li>
+            <li *ngFor="let product of Products">{{product.Name}}</li>
         </ul>
+        
     </div>
 </div>

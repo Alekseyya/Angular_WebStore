@@ -12,6 +12,7 @@ import { HomeHeaderComponent }   from './Headers/home-header.component';
 
 import { MainMenuComponent }   from './MainMenu/main-menu.component';
 
+import { HttpClientModule }   from '@angular/common/http';
 
 
 
@@ -39,7 +40,8 @@ const appRoutes: Routes =[
     CustomFooterComponent
   ],
   imports: [
-    BrowserModule, FormsModule, RouterModule.forRoot(appRoutes)
+    BrowserModule, FormsModule, RouterModule.forRoot(appRoutes),
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
