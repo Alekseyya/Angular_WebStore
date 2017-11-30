@@ -9,6 +9,7 @@ import { AboutComponent }   from './About/about.component';
 import { HomeComponent }   from './Home/home.component';
 import { NotFoundComponent }   from './Not-Found/not-found.component';
 import { HomeHeaderComponent }   from './Headers/home-header.component';
+import { CatalogComponent }   from './Catalog/catalog.component';
 
 import { MainMenuComponent }   from './MainMenu/main-menu.component';
 
@@ -24,6 +25,7 @@ import { CustomFooterComponent }   from './Footer/custom-footer.component';
 const appRoutes: Routes =[
   { path: '', component: HomeComponent},
   { path: 'about', component: AboutComponent},
+  { path: 'catalog', component: CatalogComponent},
   { path: '**', component: NotFoundComponent }
 ];
 
@@ -34,7 +36,8 @@ const appRoutes: Routes =[
     HomeComponent,
     HomeHeaderComponent,
 
-    CatalogBoard,
+    CatalogComponent,
+    CatalogBoard,   
 
 
     CustomFooterComponent
