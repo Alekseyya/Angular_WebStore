@@ -1,3 +1,23 @@
 .mainmenu{
-    background: aqua;
+    background: #256892;
+}
+.main-menu-list{
+    padding: 0;
+}
+.main-menu-over__menu{
+    display: flex;
+    justify-content: flex-start;
+    list-style-type: none;
+    align-items: center;
+    margin-bottom: 0;
+}
+
+
+.main-menu-over__item{
+    margin-right: 30px;
+    padding: 5px; 
+}
+.main-menu-list__link span{
+    color: white;
+    font-size: 20px;
 }
