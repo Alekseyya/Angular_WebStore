@@ -18,24 +18,39 @@
     width: 20px;
 }
 
+.header__authentication-component{
+    padding: 0;
+}
 .authentication-zone{
     display: flex;
     align-items: center;
+    justify-content: flex-end;
 }
 .authentication-zone__register{
-    padding: 0;    
+    margin-right: 10px; 
 }
+
+.authentication-zone__register a:link{
+    color: #646464;
+}
+
  .authentication-zone__login{
     padding: 0;
     display: flex;
-    justify-content: center;    
+    justify-content: space-between;    
 }
 .authentication-zone__login-button{
-    background-color: blue;
-
+    background-color: #7398af;
 }
 
 .authentication-zone__login-button img{
     width: 14px;
     height: 14px;
+    margin-left: 5px;
+    margin-right: 2px;
+}
+.authentication-zone__login-button button{
+    background: transparent;
+    border: none;
+    color: white;
 }
