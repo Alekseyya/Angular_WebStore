@@ -10,6 +10,7 @@ import { HomeComponent }   from './Home/home.component';
 import { NotFoundComponent }   from './Not-Found/not-found.component';
 import { HomeHeaderComponent }   from './Headers/home-header.component';
 import { CatalogComponent }   from './Catalog/catalog.component';
+import { CatalogList }   from './Catalog/CatalogList/catalog-list.component';
 
 import { MainMenuComponent }   from './MainMenu/main-menu.component';
 
@@ -26,7 +27,9 @@ const appRoutes: Routes =[
   { path: '', component: HomeComponent},
   { path: 'about', component: AboutComponent},
   { path: 'catalog', component: CatalogComponent},
-  { path: '**', component: NotFoundComponent }
+  { path: 'catalog/cataloglist', component: CatalogList},
+  { path: '**', component: NotFoundComponent },
+  
 ];
 
 @NgModule({
@@ -37,7 +40,8 @@ const appRoutes: Routes =[
     HomeHeaderComponent,
 
     CatalogComponent,
-    CatalogBoard,   
+    CatalogBoard,
+    CatalogList,  
 
 
     CustomFooterComponent

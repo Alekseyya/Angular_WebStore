@@ -1,0 +1,9 @@
+<!-- <img  *ngFor="let picture of Pictures" src="data:image/JPEG;base64,{{picture.ImageBase64}}" alt=""> -->
+
+<ul>
+    <li *ngFor="let product of Products">
+            {{product.Name}}            
+        <img *ngFor="let picture of product.Pictures" src="data:image/JPEG;base64,{{picture.ImageBase64}}" alt="">
+        
+    </li>
+</ul>
