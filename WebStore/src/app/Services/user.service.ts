@@ -22,7 +22,7 @@ export class UserService {
         var newDeletedUser = { UserName: user.UserName, Password: user.Password };
         return this.http.post(this.UserUrl + "/deleteuser", newDeletedUser);
     }
-    AddProduct(user: RegisterUser) {
+    AddUser(user: RegisterUser) {
         var newUser = {UserName: user.UserName, Email:user.Email, Password: user.Password,
                        ConfirmPassword: user.ConfirmPassword };
         return this.http.post(this.UserUrl + "/Register", newUser);

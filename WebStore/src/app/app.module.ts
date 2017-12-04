@@ -13,6 +13,7 @@ import { CatalogComponent }   from './Catalog/catalog.component';
 import { CatalogList }   from './Catalog/CatalogList/catalog-list.component';
 
 import { MainMenuComponent }   from './MainMenu/main-menu.component';
+import { RegisterComponent }   from './Register/register.component';
 
 import { HttpClientModule }   from '@angular/common/http';
 
@@ -22,9 +23,11 @@ import { HttpClientModule }   from '@angular/common/http';
 import { CatalogBoard }   from './Catalog/CatalogBoard/catalog-board.component';
 
 import { CustomFooterComponent }   from './Footer/custom-footer.component';
+import { ReactiveFormsModule }   from '@angular/forms';
 
 const appRoutes: Routes =[
   { path: '', component: HomeComponent},
+  { path: 'register', component: RegisterComponent},
   { path: 'about', component: AboutComponent},
   { path: 'catalog', component: CatalogComponent},
   { path: 'catalog/cataloglist', component: CatalogList},
@@ -41,14 +44,15 @@ const appRoutes: Routes =[
 
     CatalogComponent,
     CatalogBoard,
-    CatalogList,  
+    CatalogList,
 
+    RegisterComponent,
 
     CustomFooterComponent
   ],
   imports: [
     BrowserModule, FormsModule, RouterModule.forRoot(appRoutes),
-    HttpClientModule
+    HttpClientModule, ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
