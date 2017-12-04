@@ -1,4 +1,4 @@
-import { Product } from '../Entities/Product';
+// import { Product } from '../Entities/Product';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
@@ -12,19 +12,19 @@ export class ProductService {
     GetProducts() {
         return this.http.get(this.PruductsUrl + "/getproducts");
     }
-    DeleteProduct(product: Product) {
-        var newDeletedProduct = { Name: product.Name, Descriptions: product.Descriptions,
-                                  Price: product.Price, Count: product.Count };
-        return this.http.post(this.PruductsUrl + "/deleteproduct", newDeletedProduct);
-    }
-    AddProduct(product: Product) {
-        var newProduct = { Name: product.Name, Descriptions: product.Descriptions,
-                           Price: product.Price, Count: product.Count };
-        return this.http.post(this.PruductsUrl + "/addproduct", newProduct);
-    }
-    UpdateProduct(product: Product) {
-        var newUpdateProduct = { Name: product.Name, Descriptions: product.Descriptions,
-                           Price: product.Price, Count: product.Count };
-        return this.http.post(this.PruductsUrl + "/updateproduct", newUpdateProduct);
-    }
+    // DeleteProduct(product: Product) {
+    //     var newDeletedProduct = { Name: product.Name, Descriptions: product.Descriptions,
+    //                               Price: product.Price, Count: product.Count };
+    //     return this.http.post(this.PruductsUrl + "/deleteproduct", newDeletedProduct);
+    // }
+    // AddProduct(product: Product) {
+    //     var newProduct = { Name: product.Name, Descriptions: product.Descriptions,
+    //                        Price: product.Price, Count: product.Count };
+    //     return this.http.post(this.PruductsUrl + "/addproduct", newProduct);
+    // }
+    // UpdateProduct(product: Product) {
+    //     var newUpdateProduct = { Name: product.Name, Descriptions: product.Descriptions,
+    //                        Price: product.Price, Count: product.Count };
+    //     return this.http.post(this.PruductsUrl + "/updateproduct", newUpdateProduct);
+    // }
 }
