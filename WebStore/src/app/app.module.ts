@@ -13,7 +13,8 @@ import { CatalogComponent }   from './Catalog/catalog.component';
 import { CatalogList }   from './Catalog/CatalogList/catalog-list.component';
 
 import { MainMenuComponent }   from './MainMenu/main-menu.component';
-import { RegisterComponent }   from './Register/register.component';
+import { RegisterComponent }   from './Users/Register/register.component';
+import { LoginComponent }   from './Users/Login/login.component';
 
 import { HttpClientModule }   from '@angular/common/http';
 
@@ -28,6 +29,7 @@ import { ReactiveFormsModule }   from '@angular/forms';
 const appRoutes: Routes =[
   { path: '', component: HomeComponent},
   { path: 'register', component: RegisterComponent},
+  { path: 'login', component: LoginComponent},
   { path: 'about', component: AboutComponent},
   { path: 'catalog', component: CatalogComponent},
   { path: 'catalog/cataloglist', component: CatalogList},
@@ -47,7 +49,7 @@ const appRoutes: Routes =[
     CatalogList,
 
     RegisterComponent,
-
+    LoginComponent,
     CustomFooterComponent
   ],
   imports: [

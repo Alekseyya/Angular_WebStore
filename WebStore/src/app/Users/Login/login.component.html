@@ -1,0 +1,42 @@
+<div class="header">
+        <home-header></home-header>
+        <main-menu></main-menu>
+    </div>
+    
+    <div class="registration-zone">
+        <form [formGroup]="myForm" novalidate (ngSubmit)="Submit()">
+            <div class="form-group">
+                <label>UserName</label>
+                <input class="form-control" formControlName="UserName" />
+    
+                <div class="alert alert-danger" *ngIf="myForm.controls['UserName'].invalid && myForm.controls['UserName'].touched">
+                    Uncorrect UserName
+                </div>
+            </div>            
+            <div class="form-group">
+                <label>Password</label>
+                <input class="form-control" formControlName="Password" />
+            
+                <div class="alert alert-danger" *ngIf="myForm.controls['Password'].invalid && myForm.controls['Password'].touched">
+                    Uncorrect Password
+                </div>
+            </div>
+            <div class="form-group">
+                    <label>ConfirmPassword</label>
+                    <input class="form-control" formControlName="ConfirmPassword" />
+                
+                    <div class="alert alert-danger" *ngIf="myForm.controls['ConfirmPassword'].invalid && myForm.controls['ConfirmPassword'].touched">
+                        Uncorrect ConfirmPassword
+                    </div>
+                </div>
+            <div class="form-group">
+                <button class="btn btn-default" [disabled]="myForm.invalid">
+                    Отправить
+                </button>
+            </div>
+        </form>
+    </div>
+    
+    <div class="footer">
+        <custom-footer></custom-footer>
+    </div>

@@ -32,4 +32,8 @@ export class UserService {
                                 Age:user.Age, Gender: user.Gender, PhoneNumber: user.PhoneNumber};
         return this.http.post(this.UserUrl + "/updateuser", newUpdateUser);
     }
+    LoginUser(user:LoginUser){
+        var loginUser = { grant_type: 'password', username: user.UserName, password: user.Password };
+        return this.http.post(this.TokenUrl, loginUser);
+    }
 }
