@@ -6,12 +6,30 @@ import { Input, Output, EventEmitter } from '@angular/core';
     templateUrl: './home-header.component.html',
     styleUrls: ['./home-header.component.css']
 })
-export class HomeHeaderComponent {    
-    @Input() userName:string;
-    @Output() userNameChange = new EventEmitter<string>();
+export class HomeHeaderComponent { 
+    name:string;
+    @Input() nameList:Array<string>;
+    @Output() nameChange = new EventEmitter<Array<string>>();    
     onNameChange(model: string){
-         
-        this.userName = model;
-        this.userNameChange.emit(model);
+        
+        let flag = this.FindInArray(model);
+        if(flag){
+            this.nameChange.emit(this.nameList);
+        }
+        
+    }
+
+    FindInArray(model:string):boolean{       
+        var findElems = [];
+        for(let name of this.nameList){
+            if(name.toLowerCase() == model.toLowerCase()){                
+                findElems.push(name);
+            }
+        }
+        if(findElems.length!=0){            
+            this.nameList = findElems;            
+            return true;
+        }
+        return false;        
     }
 }

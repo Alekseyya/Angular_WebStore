@@ -7,7 +7,11 @@ import { Router} from '@angular/router';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
-  name: string = "Tom";
+  nameList = ["first", "second", "therd"];
+ 
   constructor(private router: Router){}
+  onChanged(increased: any) {
+    console.log(increased);
+  }
   
  }

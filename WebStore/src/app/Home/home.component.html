@@ -1,6 +1,6 @@
 <div class="header">
-    <home-header [(userName)]="name"></home-header>
-    <div>Выбранное имя: {{name}}</div>
+    <home-header [nameList]="nameList" (nameChange)="onChanged($event)" ></home-header>
+    <div>Выбранное имя: {{nameList}}</div>    
     <main-menu></main-menu>
 </div>   
     <catalog></catalog>

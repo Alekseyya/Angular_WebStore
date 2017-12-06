@@ -1,6 +1,6 @@
 
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { LoginUser } from '../Entities/login-user';
 import { RegisterUser} from '../Entities/register-user';
 import { UserInformation } from '../Entities/user-information';
@@ -33,7 +33,16 @@ export class UserService {
         return this.http.post(this.UserUrl + "/updateuser", newUpdateUser);
     }
     LoginUser(user:LoginUser){
-        var loginUser = { grant_type: 'password', username: user.UserName, password: user.Password };
-        return this.http.post(this.TokenUrl, loginUser);
+        //var loginUser = { grant_type: 'password', username: user.UserName, password: user.Password };
+        let body = new URLSearchParams();
+        body.set('grant_type', 'password');
+        body.set('username', user.UserName);
+        body.set('password', user.Password);
+
+        let options = {
+            headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
+        };
+        
+        return this.http.post(this.TokenUrl, body.toString(), options);
     }
 }
