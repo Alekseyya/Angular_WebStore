@@ -28,6 +28,7 @@ export class CatalogList implements OnInit {
   // paged items
   pagedItems: any[];
   
+  phones = ["iPhone 7", "LG G 5", "Honor 9", "Idol S4", "Nexus 6P"];
 
   constructor(private pictureService: PictureService,
     private pagerService: PagerService, private productService: ProductService){

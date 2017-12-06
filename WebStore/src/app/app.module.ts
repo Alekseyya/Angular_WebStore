@@ -17,6 +17,7 @@ import { RegisterComponent }   from './Users/Register/register.component';
 import { LoginComponent }   from './Users/Login/login.component';
 
 import { HttpClientModule }   from '@angular/common/http';
+import { CatalogFilterPipe } from './Catalog/Filter/catalog-filter.pipe';
 
 
 
@@ -47,6 +48,7 @@ const appRoutes: Routes =[
     CatalogComponent,
     CatalogBoard,
     CatalogList,
+    CatalogFilterPipe,
 
     RegisterComponent,
     LoginComponent,

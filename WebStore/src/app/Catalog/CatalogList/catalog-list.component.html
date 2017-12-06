@@ -1,3 +1,13 @@
+<div class="filter">
+    <input type="text" [(ngModel)]="filter">
+</div>
+<ul>
+    <li *ngFor="let phone of phones | catalogfilter: filter">
+        <div>{{phone}}</div>
+    </li>
+</ul>
+
+
 <div class="catalog container">
     <div class="catalog-list row" *ngFor="let item of pagedItems">
         <div class="catalog-list__name-car col-md-1">
