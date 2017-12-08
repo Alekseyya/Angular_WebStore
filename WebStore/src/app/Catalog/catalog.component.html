@@ -1,6 +1,7 @@
 <div class="catalog">
-        
-       <p>One {{user}}</p>
+        <ul>
+            <li *ngFor="let mark of listMarks">{{mark}}</li>
+        </ul>
     <catalog-board></catalog-board>
     <catalog-list></catalog-list>
 </div>

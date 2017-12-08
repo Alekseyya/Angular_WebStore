@@ -9,13 +9,13 @@ import { SharedService } from '../Services/shared.service';
  
 })
 export class CatalogComponent implements OnInit {
-  user:string;
+  listMarks = new Array<string>();
   
   constructor(private sharedService: SharedService) { }
 
   ngOnInit(): void {
-    this.sharedService.cast.subscribe(user => { 
-      this.user = user;
+    this.sharedService.castedMarks.subscribe((listMarks : Array<string>) => { 
+        this.listMarks = listMarks;        
      });
   }
 }

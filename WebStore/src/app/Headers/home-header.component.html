@@ -4,8 +4,9 @@
             <div class="header__shop-data shop-data col-md-6">
                 <div class="shop-data__shop col-md-3">
                     Saint-Petergurg
-                    <p>Two {{user}}</p>
-                    <input type="text" [(ngModel)]="changedUser">
+                    <input type="text" [(ngModel)]="findMark">
+                    <button (click)="FindMark()">Find</button>
+                    <input type="text" [(ngModel)]="newMark">
                     <button (click)="passToSubject()">Push</button>
                     <!-- <input [ngModel]="name" (ngModelChange)="onNameChange($event)" /> -->
                 </div>

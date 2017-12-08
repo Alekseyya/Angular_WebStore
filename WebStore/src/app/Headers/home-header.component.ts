@@ -11,19 +11,23 @@ import { SharedService } from '../Services/shared.service';
 })
 export class HomeHeaderComponent implements OnInit{ 
     
-    user:string;
-    changedUser:string;
+    findMark:string;
+    newMark:string;
 
     constructor(private sharedService: SharedService) {}
 
     ngOnInit() { 
-        this.sharedService.cast.subscribe(user => { 
-            this.user = user;
-           });      
+        // this.sharedService.castedMarks.subscribe((user:Array<string>) => { 
+        //     this.user = user;
+        //    });      
+    }
+
+    FindMark(){
+      this.sharedService.Find(this.findMark);   
     }
 
     passToSubject(){        
-        this.sharedService.EditUser(this.changedUser);  
+        this.sharedService.AddToMarksList(this.newMark);  
     }
     
     name:string;
