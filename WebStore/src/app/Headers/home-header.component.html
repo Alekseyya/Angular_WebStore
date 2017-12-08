@@ -50,8 +50,8 @@
             <div class="header__search col-md-6">
                 <div class="header__serarch-block">
                     <!-- set PostMethod -->
-                    <input type="text" class="header-search__search-input">
-                    <button type="text" name="" class="header-search__search-submit-button">
+                    <input type="text" class="header-search__search-input" [(ngModel)]="findMark">
+                    <button type="text" name="" class="header-search__search-submit-button" (click)="Search()" >
                         <span>Search</span>
                     </button>
                 </div>

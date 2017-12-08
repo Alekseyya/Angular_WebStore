@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SharedService } from '../Services/shared.service';
+import { FilterMarkService } from '../Services/filter-mark.service';
 
 
 @Component({
@@ -11,10 +11,10 @@ import { SharedService } from '../Services/shared.service';
 export class CatalogComponent implements OnInit {
   listMarks = new Array<string>();
   
-  constructor(private sharedService: SharedService) { }
+  constructor(private filterMarkService: FilterMarkService) { }
 
   ngOnInit(): void {
-    this.sharedService.castedMarks.subscribe((listMarks : Array<string>) => { 
+    this.filterMarkService.castedMarks.subscribe((listMarks : Array<string>) => { 
         this.listMarks = listMarks;        
      });
   }

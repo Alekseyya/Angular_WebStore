@@ -2,16 +2,17 @@ import { Component} from '@angular/core';
 import { PictureService } from '../../Services/picture.service';
 import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Picture } from '../../Entities/picture';
-import { ProductService } from '../../Services/product.service';
 import { Product } from '../../Entities/product';
 import { PagerService } from '../../Services/pager.service'
+import { ProductService } from '../../Services/product.service';
+import { FilterMarkService } from '../../Services/filter-mark.service';
 
 
 @Component({
   selector: 'catalog-list',
   templateUrl: './catalog-list.component.html',
   styleUrls: ['./catalog-list.component.css'],
-  providers: [PictureService, ProductService,PagerService]
+  providers: [PictureService, PagerService]
 })
 export class CatalogList implements OnInit {
  
@@ -31,7 +32,8 @@ export class CatalogList implements OnInit {
   phones = ["iPhone 7", "LG G 5", "Honor 9", "Idol S4", "Nexus 6P"];
 
   constructor(private pictureService: PictureService,
-    private pagerService: PagerService, private productService: ProductService){
+    private pagerService: PagerService, private productService: ProductService,
+    private filterMarkService :FilterMarkService){
   }
 
   ngOnInit() {
@@ -46,6 +48,12 @@ export class CatalogList implements OnInit {
       this.setPage(1);
 
     });
+    //add change callback list products
+    this.filterMarkService.castProducts.subscribe(
+      (productsList: Array<Product>) => {        
+        this.Products = productsList;
+        this.setPage(1);
+      });
   }
 
   setPage(page: number) {
@@ -56,12 +64,8 @@ export class CatalogList implements OnInit {
     this.pager = this.pagerService.getPager(this.Products.length, page);    
 
     // get current page of items
-    this.pagedItems = this.Products.slice(this.pager.startIndex, this.pager.endIndex + 1);
-    console.log(this.Products);
-    console.log(this.pagedItems);
+    this.pagedItems = this.Products.slice(this.pager.startIndex, this.pager.endIndex + 1);    
   }
-
-
  
  }
 

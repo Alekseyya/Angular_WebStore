@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Input, Output, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
-import { SharedService } from '../Services/shared.service';
+import { FilterMarkService } from '../Services/filter-mark.service';
 
 @Component({
     selector: 'home-header',
@@ -14,7 +14,7 @@ export class HomeHeaderComponent implements OnInit{
     findMark:string;
     newMark:string;
 
-    constructor(private sharedService: SharedService) {}
+    constructor(private filterMarkService: FilterMarkService) {}
 
     ngOnInit() { 
         // this.sharedService.castedMarks.subscribe((user:Array<string>) => { 
@@ -22,12 +22,16 @@ export class HomeHeaderComponent implements OnInit{
         //    });      
     }
 
+    Search(){        
+        this.filterMarkService.FindProduct(this.findMark);
+    }
+
     FindMark(){
-      this.sharedService.Find(this.findMark);   
+      this.filterMarkService.Find(this.findMark);   
     }
 
     passToSubject(){        
-        this.sharedService.AddToMarksList(this.newMark);  
+        this.filterMarkService.AddToMarksList(this.newMark);  
     }
     
     name:string;
