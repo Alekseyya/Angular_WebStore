@@ -19,6 +19,8 @@ import { LoginComponent }   from './Users/Login/login.component';
 import { HttpClientModule }   from '@angular/common/http';
 import { CatalogFilterPipe } from './Catalog/Filter/catalog-filter.pipe';
 
+import { SharedService } from './Services/shared.service';
+
 
 
 //catalog
@@ -58,7 +60,7 @@ const appRoutes: Routes =[
     BrowserModule, FormsModule, RouterModule.forRoot(appRoutes),
     HttpClientModule, ReactiveFormsModule
   ],
-  providers: [],
+  providers: [SharedService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
