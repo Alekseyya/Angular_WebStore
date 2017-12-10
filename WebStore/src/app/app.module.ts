@@ -22,7 +22,8 @@ import { CatalogFilterPipe } from './Catalog/Filter/catalog-filter.pipe';
 import { FilterMarkService } from './Services/filter-mark.service';
 
 import { ProductService } from './Services/product.service';
-
+import { AuthenticationService} from './Services/authentication.service'
+import {AuthenticationComponent } from './Headers/Authentication/authentication.component'
 
 //catalog
 import { CatalogBoard }   from './Catalog/CatalogBoard/catalog-board.component';
@@ -47,6 +48,7 @@ const appRoutes: Routes =[
 
     HomeComponent,
     HomeHeaderComponent,
+    AuthenticationComponent,
 
     CatalogComponent,
     CatalogBoard,
@@ -61,7 +63,7 @@ const appRoutes: Routes =[
     BrowserModule, FormsModule, RouterModule.forRoot(appRoutes),
     HttpClientModule, ReactiveFormsModule
   ],
-  providers: [FilterMarkService, ProductService],
+  providers: [AuthenticationService, ProductService, FilterMarkService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,0 +1,51 @@
+<div class="authentication-zone" *ngIf="!registerComplited">
+    <div class="authentication-zone__register">
+        <a class="btn btn-warning btn-sm glyphicon glyphicon-user" routerLink="/register" href="">
+            <span>Registration</span>
+        </a>
+    </div>
+    <div class="authentication-zone__login">
+        <div class="authentication-zone__login-button">
+            <a class="btn btn-success btn-sm glyphicon glyphicon-user" routerLink="/login" href="">
+                <span>Login</span>
+            </a>
+        </div>
+    </div>
+</div>
+<div class="complited-zone" *ngIf="registerComplited">
+    <div class="complited-zone__user">
+        <div class="btn-group">
+            <button type="button" class="btn btn-success btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {{userName}}
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li>
+                    <a class="glyphicon glyphicon-home" href="#">MyRoom</a>
+                </li>
+                <li>
+                    <a href="#">Orders</a>
+                </li>
+                <li role="separator" class="divider"></li>
+                <li>
+                    <a (click)="Logout()" href="#">Logout</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                  Dropdown
+                  <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                  <li><a href="#">Action</a></li>
+                  <li><a href="#">Another action</a></li>
+                  <li><a href="#">Something else here</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li><a href="#">Separated link</a></li>
+                </ul>
+              </div>
+    </div>
+
+</div>
