@@ -3,12 +3,18 @@
     <div class="cart__id-product col-sm-1">{{i+1}}</div>
     <div class="cart__product-name col-sm-2">{{product.Descriptions}}</div>
     <div class="cart__product-descriptions col-sm-2">{{product.Price}}</div>
-    <div *ngFor="let picture of product.Pictures" class="cart__product-icons col-sm-2">{{picture.Name}}</div>
+    <div *ngFor="let picture of product.Pictures" class="cart__product-icons col-sm-2">
+            <img class="img-rounded"  src="data:image/JPEG;base64,{{picture.ImageBase64}}" alt="">
+    </div>
     <div class="cart__product-price col-sm-1">{{product.Price}}</div>
-    <div class="cart__product-quantity col-sm-1">{{product.Count}}</div>
+    <div class="cart__product-quantity quantity col-sm-1 row align-items-center">
+        <button (click)="LessQuantityProduct(product)" class="quantity__less-number col-md-4">Less</button>
+        <input onchange="javascript:Test(this.value)" (change)="ChangeQuantityProduct(product)" type="text" [value]="product.Count" class="col-md-4">
+        <button (click)="MoreQuantityProduct(product)" class="quantity__more-number col-md-4">More</button>
+    </div>
 </div>
 <div class="checkout">
     <p>Are you sure you want to place order?</p>
-    <button (click)="AddToOrder()">AddToOrder</button>
+    <button (click)="AddToOrder(product)">AddToOrder</button>
 </div>
 <custom-footer></custom-footer>

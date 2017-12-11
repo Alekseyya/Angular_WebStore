@@ -7,7 +7,7 @@ import { Subject } from "rxjs/Subject";
 export class AuthenticationService {
     
     private logined:boolean = false;
-    public useName:string;
+    public useName:string = "";
     
     private tiggerSubjectLogin  = new BehaviorSubject<boolean>(this.logined);
     castedTriggerLogin = this.tiggerSubjectLogin.asObservable(); 

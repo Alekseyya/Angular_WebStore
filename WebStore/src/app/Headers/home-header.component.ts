@@ -19,7 +19,10 @@ export class HomeHeaderComponent implements OnInit{
     products:Array<Product> = [];
 
     constructor(private cartService : CartService,
-         private filterMarkService : FilterMarkService) {}
+         private filterMarkService : FilterMarkService) {
+             this.products = this.cartService.products;
+             this.numberInCart = this.cartService.numberInCart;
+         }
 
     ngOnInit() { 
         this.cartService.castedProducts.subscribe(

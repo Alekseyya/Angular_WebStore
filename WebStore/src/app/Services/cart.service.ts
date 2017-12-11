@@ -6,11 +6,11 @@ import { Product } from "../Entities/product";
 
 @Injectable()
 export class CartService {
-    private products:Array<Product> = [];
+    products:Array<Product> = [];
     private productsSubject  = new Subject<Array<Product>>();
 
     public castedProducts = this.productsSubject.asObservable();
-    public numberInCart:number;
+    public numberInCart:number = this.products.length;
 
     constructor() {}
     
