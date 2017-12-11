@@ -1,0 +1,10 @@
+<home-header></home-header>
+<div *ngFor="let product of products; let i = index" class="cart row">
+    <div class="cart__id-product col-sm-1">{{i+1}}</div>
+    <div class="cart__product-name col-sm-2">{{product.Descriptions}}</div>
+    <div class="cart__product-descriptions col-sm-2">{{product.Price}}</div>
+    <div *ngFor="let picture of product.Pictures" class="cart__product-icons col-sm-2">{{picture.Name}}</div>
+    <div class="cart__product-price col-sm-1">{{product.Price}}</div>
+    <div class="cart__product-quantity col-sm-1">{{product.Count}}</div>
+</div>
+<custom-footer></custom-footer>

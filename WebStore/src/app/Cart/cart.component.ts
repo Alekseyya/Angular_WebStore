@@ -1,4 +1,5 @@
 import { Component} from '@angular/core';
+import { Product } from '../Entities/product';
 
 
 @Component({
@@ -8,5 +9,7 @@ import { Component} from '@angular/core';
  
 })
 export class CartComponent {
+  products:Array<Product> =[];
+  
 
 }
