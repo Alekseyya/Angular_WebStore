@@ -6,6 +6,7 @@ import { Product } from '../../Entities/product';
 import { PagerService } from '../../Services/pager.service'
 import { ProductService } from '../../Services/product.service';
 import { FilterMarkService } from '../../Services/filter-mark.service';
+import { CartService } from '../../Services/cart.service';
 
 
 @Component({
@@ -31,8 +32,11 @@ export class CatalogList implements OnInit {
   
   phones = ["iPhone 7", "LG G 5", "Honor 9", "Idol S4", "Nexus 6P"];
 
-  constructor(private pictureService: PictureService,
-    private pagerService: PagerService, private productService: ProductService,
+  constructor(
+    private cartService:CartService,
+    private pictureService: PictureService,
+    private pagerService: PagerService, 
+    private productService: ProductService,
     private filterMarkService :FilterMarkService){
   }
 
@@ -53,7 +57,11 @@ export class CatalogList implements OnInit {
       (productsList: Array<Product>) => {        
         this.Products = productsList;
         this.setPage(1);
-      });
+      });    
+  }
+
+  public Buy(product:Product){
+    this.cartService.AddProduct(product);
   }
 
   setPage(page: number) {

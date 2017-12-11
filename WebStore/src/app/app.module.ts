@@ -19,6 +19,7 @@ import { LoginComponent }   from './Users/Login/login.component';
 
 import { HttpClientModule }   from '@angular/common/http';
 import { CatalogFilterPipe } from './Catalog/Filter/catalog-filter.pipe';
+import {CartService} from './Services/cart.service'
 
 import { FilterMarkService } from './Services/filter-mark.service';
 
@@ -66,7 +67,7 @@ const appRoutes: Routes =[
     BrowserModule, FormsModule, RouterModule.forRoot(appRoutes),
     HttpClientModule, ReactiveFormsModule
   ],
-  providers: [AuthenticationService, ProductService, FilterMarkService],
+  providers: [AuthenticationService, ProductService, FilterMarkService, CartService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

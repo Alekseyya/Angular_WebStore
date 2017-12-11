@@ -7,13 +7,18 @@ import { Product } from "../Entities/product";
 @Injectable()
 export class CartService {
     private products:Array<Product> = [];
-
     private productsSubject  = new Subject<Array<Product>>();
-    castedProducts = this.productsSubject.asObservable();
+
+    public castedProducts = this.productsSubject.asObservable();
+    public numberInCart:number;
+
+    constructor() {}
     
     AddProduct(product:Product){
         if(product != null && product != undefined){
             this.products.push(product);
+            console.log(this.products.length);
+            this.numberInCart = this.products.length;
             this.productsSubject.next(this.products);
         }
     }
@@ -22,10 +27,19 @@ export class CartService {
         if(product != null && product != undefined){
             for(let productItem of this.products){
                 if(productItem.Name == product.Name && productItem.Descriptions == product.Descriptions){
-                    
+                   let index = this.products.indexOf(productItem);
+                    if (index > -1) {
+                        this.products.splice(index,1);
+                        this.numberInCart = this.products.length;
+                        this.productsSubject.next(this.products);
+                    }
                 }
             }
         }
+    }
+
+    AddToOrder(){
+
     }
 
 }

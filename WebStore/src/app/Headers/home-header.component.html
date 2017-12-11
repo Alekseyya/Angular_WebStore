@@ -35,13 +35,30 @@
                     </button>
                 </div>
             </div>
-            <div class="shop-functions col-md-4">
-                <div class="shop-functions-block-cart col-xs-3 col-xs-offset-4">
-                    <a routerLink="/cart" href="" class="shop-functions__cart glyphicon glyphicon-shopping-cart">
+            <div class="shop-functions col-md-4 row">
+                <div class="shop-functions-block-cart col-md-4">
+                    <!-- <a routerLink="/cart" href="" class="shop-functions__cart">
                         <span>Cart</span>
-                    </a>
+                    </a> -->
+                    <div class="cart-dropdown dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            <div routerLink="/cart" class="cart-dropdown__name row">
+                                <span class="col-md-6">Cart</span>
+                                <div class="cart-dropdown__number-in-cart col-md-6">{{numberInCart}}</div>
+                            </div>                            
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                            <div *ngFor="let product of products" class="dropdown-item">                                
+                                <span class="dropdown-item__name">{{product.Name}}</span>
+                                <button class="dropdown-item__button" (click)="DeleteInCart(product)" type="button">X</button>
+                            </div>
+                        </div>
+                    </div>
+                
+                
                 </div>
-                <div class="shop-functions-block-orders col-xs-4 col-xs-offset-1">
+                <div class="shop-functions-block-orders col-md-4 ">
                     <a href="" class="shop-functiond__orders glyphicon glyphicon-folder-close">                        
                         <span>Orders</span> 
                     </a>
