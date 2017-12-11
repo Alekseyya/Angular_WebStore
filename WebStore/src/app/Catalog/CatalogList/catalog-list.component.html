@@ -10,34 +10,38 @@
 
 <div class="catalog container">
     <div class="catalog-list row" *ngFor="let item of pagedItems">
-        <div class="catalog-list__name-car col-md-1">
+        <div class="catalog-list__name-car col-md-3">
             {{item.Name}}
         </div>
-        <div class="catalog-list__descriptions-car col-md-2">
+        <div class="catalog-list__descriptions-car col-md-3">
             {{item.Descriptions}}
         </div>
-        <div class="catalog-list__picture col-md-5">
+        <div class="catalog-list__picture col-md-4">
             <img class="img-rounded" *ngFor="let picture of item.Pictures" src="data:image/JPEG;base64,{{picture.ImageBase64}}" alt="">
         </div>
         <div class="catalog-list__price-car col-md-1">
             {{item.Price}}
         </div>
+        <div class="catalog-list__buy col-md-1">
+            <button class="btn btn-primary" type="submit">Buy</button>
+        </div>     
+
     </div>
-    <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
-            <li [ngClass]="{disabled:pager.currentPage === 1}">
-                <a (click)="setPage(1)">First</a>
+    <ul *ngIf="pager.pages && pager.pages.length" class="pagination nav nav-pills">
+            <li class="nav-item" [ngClass]="{disabled:pager.currentPage === 1}">
+                <a class="nav-link btn btn-primary" (click)="setPage(1)">First</a>
             </li>
-            <li [ngClass]="{disabled:pager.currentPage === 1}">
-                <a (click)="setPage(pager.currentPage - 1)">Previous</a>
+            <li class="nav-item" [ngClass]="{disabled:pager.currentPage === 1}">
+                <a class="nav-link btn btn-primary" (click)="setPage(pager.currentPage - 1)">Previous</a>
             </li>
-            <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
-                <a (click)="setPage(page)">{{page}}</a>
+            <li class="nav-item" *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+                <a class="nav-link btn btn-outline-success" (click)="setPage(page)">{{page}}</a>
             </li>
-            <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
-                <a (click)="setPage(pager.currentPage + 1)">Next</a>
+            <li class="nav-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                <a class="nav-link btn btn-primary" (click)="setPage(pager.currentPage + 1)">Next</a>
             </li>
-            <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
-                <a (click)="setPage(pager.totalPages)">Last</a>
+            <li class="nav-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                <a class="nav-link btn btn-primary" (click)="setPage(pager.totalPages)">Last</a>
             </li>
         </ul>
 </div>

@@ -44,9 +44,7 @@ export class LoginComponent {
 
         this.userService.LoginUser(newUser).subscribe(
             (token:Token) => {                
-                this.authenticationService.ChangedLoginTriger(true);
-                this.authenticationService.ChangeLoginName(token.userName);
-
+                this.authenticationService.ChangedLoginTriger(true, token.userName); 
                 this.CheckLogined();
                 
             }, error => { console.log(error) });
@@ -56,7 +54,7 @@ export class LoginComponent {
         this.authenticationService.castedTriggerLogin.subscribe(
             (flag: boolean) => {
                 if (flag) {
-                   // setTimeout(() => { this.router.navigate(['']); }, 4000);
+                   this.router.navigate(['']);
                 }
             }
         );

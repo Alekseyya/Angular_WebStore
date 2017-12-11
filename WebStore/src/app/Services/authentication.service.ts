@@ -7,16 +7,14 @@ import { Subject } from "rxjs/Subject";
 export class AuthenticationService {
     
     private logined:boolean = false;
-    private userNameSubject = new Subject<string>();
+    public useName:string;
+    
     private tiggerSubjectLogin  = new BehaviorSubject<boolean>(this.logined);
     castedTriggerLogin = this.tiggerSubjectLogin.asObservable(); 
-    castUserName = this.userNameSubject.asObservable();
     
-    ChangedLoginTriger(trigger:boolean){
+    
+    ChangedLoginTriger(trigger:boolean, userName?:string){
+        this.useName = userName;
         this.tiggerSubjectLogin.next(trigger);               
     }
-    ChangeLoginName(loginName:string){
-        this.userNameSubject.next(loginName);
-    }
-
 }

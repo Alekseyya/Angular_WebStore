@@ -14,12 +14,12 @@ export class AuthenticationComponent {
     constructor(private authenticationService: AuthenticationService) {  
         this.authenticationService.castedTriggerLogin.subscribe((flag:boolean)=>{
             this.registerComplited = flag;
-                      
-        });
-        this.authenticationService.castUserName.subscribe((userName: string) => this.userName = userName);
+            this.userName =this.authenticationService.useName;          
+        });        
     }
 
     Logout(){
+        console.log("logoust");
         this.authenticationService.ChangedLoginTriger(false);
     }
 }

@@ -11,6 +11,7 @@ import { NotFoundComponent }   from './Not-Found/not-found.component';
 import { HomeHeaderComponent }   from './Headers/home-header.component';
 import { CatalogComponent }   from './Catalog/catalog.component';
 import { CatalogList }   from './Catalog/CatalogList/catalog-list.component';
+import { CartComponent } from './Cart/cart.component';
 
 import { MainMenuComponent }   from './MainMenu/main-menu.component';
 import { RegisterComponent }   from './Users/Register/register.component';
@@ -33,10 +34,11 @@ import { ReactiveFormsModule }   from '@angular/forms';
 
 const appRoutes: Routes =[
   { path: '', component: HomeComponent},
+  { path: 'cart', component: CartComponent},
+  { path: 'catalog', component: CatalogComponent},
   { path: 'register', component: RegisterComponent},
   { path: 'login', component: LoginComponent},
-  { path: 'about', component: AboutComponent},
-  { path: 'catalog', component: CatalogComponent},
+  { path: 'about', component: AboutComponent},  
   { path: 'catalog/cataloglist', component: CatalogList},
   { path: '**', component: NotFoundComponent },
   
@@ -50,6 +52,7 @@ const appRoutes: Routes =[
     HomeHeaderComponent,
     AuthenticationComponent,
 
+    CartComponent,
     CatalogComponent,
     CatalogBoard,
     CatalogList,

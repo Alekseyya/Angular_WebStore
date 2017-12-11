@@ -1,23 +1,17 @@
 <div class="container">
     <div class="header__top">
         <div class="row">
-            <div class="header__shop-data shop-data col-md-6">
+            <div class="header__shop-data shop-data col-md-6 row">
                 <div class="shop-data__shop col-md-3">
-                    Saint-Petergurg
-                    <input type="text" [(ngModel)]="findMark">
-                    <button (click)="FindMark()">Find</button>
-                    <input type="text" [(ngModel)]="newMark">
-                    <button (click)="passToSubject()">Push</button>
-                    <!-- <input [ngModel]="name" (ngModelChange)="onNameChange($event)" /> -->
+                    Saint-Petergurg                    
                 </div>
-                <div class="shop-data__phone col-md-6">
+                <div class="shop-data__phone col-md-6 row">
                     <div class="shop-data__phone-img col-md-1">
                         <img src="../../assets/Images/phone.svg" alt="">
                     </div>
                     <div class="shop-data__phone-phone col-md-8">
                         <p>+7(959)1488-1488</p>
                     </div>
-
                 </div>
             </div>
             <div class="header__authentication-component col-md-6">
@@ -34,10 +28,9 @@
                 </a>
             </div>
             <div class="header__search col-md-6">
-                <div class="header__serarch-block">
-                    <!-- set PostMethod -->
-                    <input type="text" class="header-search__search-input" [(ngModel)]="findMark">
-                    <button type="text" name="" class="header-search__search-submit-button" (click)="Search()" >
+                <div class="header__serarch-block row">                    
+                    <input type="text" class="header-search__search-input col-md-10" [(ngModel)]="findMark">
+                    <button type="text" name="" class="header-search__search-submit-button btn btn-outline-success" (click)="Search()" >
                         <span>Search</span>
                     </button>
                 </div>
