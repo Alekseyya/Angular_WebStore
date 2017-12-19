@@ -4,8 +4,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { LoginUser } from '../Entities/login-user';
 import { RegisterUser} from '../Entities/register-user';
 import { UserInformation } from '../Entities/user-information';
-
-
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
 
 @Injectable()
 export class UserService {
@@ -14,10 +14,16 @@ export class UserService {
 
     UserUrl: string = "http://localhost:54058/api/account";
     TokenUrl:string = "http://localhost:54058/token"
+    
 
-    GetUsers() {
-        return this.http.get(this.UserUrl + "/getproducts");
+    GetUsers(): Observable<LoginUser[]> {
+        return this.http.get(this.UserUrl + "/getusers").map((arr: any) => {
+            return arr.map(x => ({
+                UserName: x.UserName                
+            }));
+        });
     }
+    
     DeleteUser(user: LoginUser) {
         var newDeletedUser = { UserName: user.UserName, Password: user.Password };
         return this.http.post(this.UserUrl + "/deleteuser", newDeletedUser);
