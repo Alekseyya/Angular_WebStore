@@ -26,7 +26,10 @@ export class CartComponent implements OnInit {
   }
 
   constructor(private cartService: CartService) {
+    console.log("!!!")
     this.products = this.cartService.products;
+    console.log(this.cartService.products);
+
   }
 
   DeleteProduct(product: Product) {

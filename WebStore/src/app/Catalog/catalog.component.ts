@@ -14,8 +14,8 @@ export class CatalogComponent implements OnInit {
   constructor(private filterMarkService: FilterMarkService) { }
 
   ngOnInit(): void {
-    this.filterMarkService.castedMarks.subscribe((listMarks : Array<string>) => { 
-        this.listMarks = listMarks;        
-     });
+    // this.filterMarkService.castedMarks.subscribe((listMarks : Array<string>) => { 
+    //     this.listMarks = listMarks;        
+    //  });
   }
 }

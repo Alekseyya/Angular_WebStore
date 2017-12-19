@@ -41,13 +41,13 @@ export class HomeHeaderComponent implements OnInit{
         this.filterMarkService.FindProduct(this.findMark);
     }
 
-    FindMark(){
-      this.filterMarkService.Find(this.findMark);   
-    }
+    // FindMark(){
+    //   this.filterMarkService.Find(this.findMark);   
+    // }
 
-    passToSubject(){        
-        this.filterMarkService.AddToMarksList(this.newMark);  
-    }
+    // passToSubject(){        
+    //     this.filterMarkService.AddToMarksList(this.newMark);  
+    // }
     
     // name:string;
     // @Input() nameList:Array<string>;

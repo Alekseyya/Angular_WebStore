@@ -19,8 +19,8 @@ export class CatalogList implements OnInit {
  
   BootstrapColumn ="col-md-3";
 
-  Pictures:Array<Picture> =[]
-  TmpPicture: any;
+  // Pictures:Array<Picture> =[]
+  // TmpPicture: any;
 
   Products: Array<Product> =[];
   Product: Product;
@@ -30,7 +30,7 @@ export class CatalogList implements OnInit {
   // paged items
   pagedItems: any[];
   
-  phones = ["iPhone 7", "LG G 5", "Honor 9", "Idol S4", "Nexus 6P"];
+  // phones = ["iPhone 7", "LG G 5", "Honor 9", "Idol S4", "Nexus 6P"];
 
   constructor(
     private cartService:CartService,
@@ -58,7 +58,7 @@ export class CatalogList implements OnInit {
         this.Products = productsList;
         this.setPage(1);
       });    
-  }
+  }  
 
   public Buy(product:Product){
     this.cartService.AddProduct(product);

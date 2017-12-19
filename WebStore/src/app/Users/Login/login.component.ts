@@ -31,6 +31,13 @@ export class LoginComponent {
         return control.get('Password').value === control.get('ConfirmPassword').value
             ? null : { 'mismatch': true };
     }
+    
+    SetCookie(name, value, exdays) {
+        var date = new Date();
+        date.setTime(date.getTime() + (exdays * 24 * 60 * 60 * 1000));
+        var expires = "expires=" + date.toUTCString();
+        document.cookie = name + "=" + value + ";" + expires + ";path=/";
+      }
 
     Submit() {
         var userName = this.myForm.controls.UserName.value;
@@ -45,19 +52,14 @@ export class LoginComponent {
         this.userService.LoginUser(newUser).subscribe(
             (token:Token) => {                
                 this.authenticationService.ChangedLoginTriger(true, token.userName); 
-                this.CheckLogined();
+                this.SetCookie(token.userName, token.access_token, 1);
+                this.RedirectToHome();
                 
             }, error => { console.log(error) });
     }
 
-    private CheckLogined() {
-        this.authenticationService.castedTriggerLogin.subscribe(
-            (flag: boolean) => {
-                if (flag) {
-                   this.router.navigate(['']);
-                }
-            }
-        );
+    private RedirectToHome() {
+       this.router.navigate(['']);        
     }
 }
 
