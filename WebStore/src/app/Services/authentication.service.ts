@@ -23,7 +23,7 @@ export class AuthenticationService implements OnInit {
 
     private FindUserForUpdatePage(users:Array<LoginUser>){
         if(users!=null){
-            for(let user of users){
+            for(let user of users){                
                 if(this.CheckUserNameInCookies(user.UserName)){
                     this.ChangedLoginTriger(true, user.UserName);
                 }
@@ -33,29 +33,16 @@ export class AuthenticationService implements OnInit {
         }
     }
 
-    private CheckUserNameInCookies(userName:string):boolean{
-        var user = this.GetCookie(userName);
-        if(user){
+    private CheckUserNameInCookies(userName:string):boolean{  
+        var user:string  = this.getCookie(userName);
+        if(user!= ''){
+           
             return true;
         }
         return false;
     }
 
-    ngOnInit(){
-        // this.userService.GetUsers().subscribe(
-        //     (users:Array<LoginUser>) => {   
-        //         if(users!=null){
-        //            for(let user in users){
-        //               console.log(user); 
-        //            }     
-        //             this.users = users;
-        //         }else{
-        //             console.log("no users")
-        //         }
-
-        //     }
-        // );
-    }
+    ngOnInit(){}
 
     
     private tiggerSubjectLogin  = new BehaviorSubject<boolean>(this.logined);
@@ -71,11 +58,26 @@ export class AuthenticationService implements OnInit {
     }
 
 
-    private GetCookie(name:string) {
+    private GetCookieValues(name:string) {
         var matches = document.cookie.match(new RegExp(
             "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
         ));
         return matches ? decodeURIComponent(matches[1]) : undefined;
+    }
+
+    private getCookie(userName) {        
+        var numberChar = userName.length;
+        var decodedCookie = decodeURIComponent(document.cookie);
+        
+        var arrayCookies = decodedCookie.split(';');        
+        for(var i = 0; i <arrayCookies.length; i++) {
+            var cookie = arrayCookies[i].trim();
+            var findedUsername = cookie.substring(0, numberChar);
+            if(userName == findedUsername ){
+                return  findedUsername;
+            }
+        }
+        return "";
     }
 
 
