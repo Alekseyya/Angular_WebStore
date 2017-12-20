@@ -58,17 +58,17 @@ export class CartService {
     }
 
     public GetAllProductsInCookie(userName: string) {
-        var cookie = this.SearchCookieForUserName(userName);
-        console.log(cookie);
-        var indexOpenBracket = cookie.indexOf("[");
-        var indexCloseBracket = cookie.indexOf("]");        
-        var listProductsWithoutComma = cookie.substring(indexOpenBracket, indexCloseBracket);
-        var listProducts = listProductsWithoutComma.split(",");
+        var cookie = this.SearchCookieForUserName(userName);             
+        var listitemsWithoutComma = cookie.substring(cookie.indexOf("[")+1, cookie.indexOf("]"));
+        var listItems = listitemsWithoutComma.split(":");
         
-        //Дописать
-        //var product = {name:listProducts[0], count:listProducts[1]};
+        var listProducts:Array<object> = [];
+        for(var item of listItems){
+            var itemArray = item.split(",");
+            var tmpProduct = {name:itemArray[0], count:itemArray[1]};
+            listProducts.push(tmpProduct);
+        }
 
-        console.log(listProducts);
     }
 
     private SetCookie(value, exdays) {
@@ -81,19 +81,29 @@ export class CartService {
     public AddProductToCookies(productName: string, productCount: number) {  
         
         var cookie:string = this.SearchCookieForUserName(this.UserName);
-        var newCookieValue:string;
-        console.log(cookie.indexOf("]"));
+        var newCookieValue:string;        
         if(cookie.indexOf("]")==-1){            
             newCookieValue  = cookie + "[" + productName + "," + productCount + "]";
             console.log(newCookieValue);
             this.SetCookie(newCookieValue, 1);  
         }else{
-            var tmpString =  ":" + productName + "," + productCount + "]";                   
-            newCookieValue = cookie.replace("]", tmpString);
-            console.log(newCookieValue);
-            this.SetCookie(newCookieValue, 1);   
+            this.IncrementProduct(cookie, productName, productCount);
+            // var tmpString =  ":" + productName + "," + productCount + "]";                   
+            // newCookieValue = cookie.replace("]", tmpString);
+            // console.log(newCookieValue);
+            // this.SetCookie(newCookieValue, 1);   
         }
           
+    }
+
+    private IncrementProduct(cookie:string, productName:string, productCount:number):void{
+        var indexProduct = cookie.indexOf(productName);
+        if(indexProduct!=-1){
+            var findToPoint = indexProduct + productName.length + 1;
+            var count =  cookie.substring(findToPoint, findToPoint + 3).match("[0-9]{1,3}");
+            console.log(count);
+        }        
+        
     }
 
     private SearchCookieForUserName(userName: string): string {
