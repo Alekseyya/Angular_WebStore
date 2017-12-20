@@ -2,6 +2,9 @@ import { Component, SimpleChanges } from '@angular/core';
 import { Product } from '../Entities/product';
 import { CartService } from '../Services/cart.service';
 import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
+import { OrderService } from '../Services/order.service';
+import { Order } from '../Entities/order';
+import { UserService } from '../Services/user.service';
 
 
 
@@ -25,8 +28,9 @@ export class CartComponent implements OnInit {
     );
   }
 
-  constructor(private cartService: CartService) {
-    console.log("!!!")
+  constructor(private cartService: CartService,
+              private orderService: OrderService,
+              private userService: UserService) {    
     this.products = this.cartService.products;
     console.log(this.cartService.products);
 
@@ -77,6 +81,12 @@ export class CartComponent implements OnInit {
     // console.log(this.products);
 
   }
+
+  AddToOrder(product:Product){
+    let newOrder:Order = new Order();
+   
+    
+  } 
 
 
 }

@@ -34,7 +34,7 @@ export class AuthenticationService implements OnInit {
     }
 
     private CheckUserNameInCookies(userName:string):boolean{  
-        var user:string  = this.getCookie(userName);
+        var user:string  = this.HaveCookieForUser(userName);
         if(user!= ''){
            
             return true;
@@ -57,6 +57,7 @@ export class AuthenticationService implements OnInit {
         document.cookie = name + "=" + value + ";" + expires + ";path=/";
     }
 
+    
 
     private GetCookieValues(name:string) {
         var matches = document.cookie.match(new RegExp(
@@ -65,7 +66,7 @@ export class AuthenticationService implements OnInit {
         return matches ? decodeURIComponent(matches[1]) : undefined;
     }
 
-    private getCookie(userName) {        
+    public HaveCookieForUser(userName) {        
         var numberChar = userName.length;
         var decodedCookie = decodeURIComponent(document.cookie);
         
