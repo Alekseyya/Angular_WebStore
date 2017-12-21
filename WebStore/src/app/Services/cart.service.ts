@@ -4,6 +4,7 @@ import { Subject } from "rxjs/Subject";
 import { Product } from "../Entities/product";
 import { AuthenticationService } from "./authentication.service";
 import { UserService } from "./user.service";
+import { findLast } from "@angular/compiler/src/directive_resolver";
 
 
 @Injectable()
@@ -87,23 +88,35 @@ export class CartService {
             console.log(newCookieValue);
             this.SetCookie(newCookieValue, 1);  
         }else{
-            this.IncrementProduct(cookie, productName, productCount);
-            // var tmpString =  ":" + productName + "," + productCount + "]";                   
-            // newCookieValue = cookie.replace("]", tmpString);
-            // console.log(newCookieValue);
-            // this.SetCookie(newCookieValue, 1);   
+            var newValueCookie = this.IncrementProduct(cookie, productName, productCount)
+             if(newValueCookie == ''){
+                 console.log("Not found");
+                var tmpString =  ":" + productName + "," + productCount + "]";                   
+                newCookieValue = cookie.replace("]", tmpString);
+                console.log(newCookieValue);
+                this.SetCookie(newCookieValue, 1); 
+             } else{
+                 console.log(newValueCookie);
+                 console.log("found");
+                this.SetCookie(newValueCookie,1);
+             }
         }
           
     }
 
-    private IncrementProduct(cookie:string, productName:string, productCount:number):void{
+    private IncrementProduct(cookie:string, productName:string, productCount:number):string{
         var indexProduct = cookie.indexOf(productName);
-        if(indexProduct!=-1){
-            var findToPoint = indexProduct + productName.length + 1;
-            var count =  cookie.substring(findToPoint, findToPoint + 3).match("[0-9]{1,3}");
-            console.log(count);
-        }        
-        
+       
+        if(indexProduct!=-1){            
+            var numberProductInCookie:number = indexProduct + productName.length+1;
+            var numberProduct = cookie[numberProductInCookie];
+            var newNumberProduct = productCount + +numberProduct;
+                    
+            var newCookie = cookie.substring(0, numberProductInCookie) + newNumberProduct.toString() + cookie.substring(numberProductInCookie + 1, cookie.length);
+            return newCookie;
+            
+        }       
+        return '';
     }
 
     private SearchCookieForUserName(userName: string): string {
