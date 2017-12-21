@@ -12,9 +12,9 @@ import { Observable } from "rxjs/Observable";
 export class CartService {
     
     products: Array<Product> = [];
-    cartDropdownList:Array<CartDropdownList> = [];
+    cartDropdownList:Array<ProductInCartDropdownList> = [];
     
-    private productsInCart = new Subject<Array<CartDropdownList>>();
+    private productsInCart = new Subject<Array<ProductInCartDropdownList>>();
     public castedProductsInCart = this.productsInCart.asObservable();
 
     private productsSubject = new Subject<Array<Product>>();
@@ -47,7 +47,7 @@ export class CartService {
                 this.products.push(product);
                 this.numberInCart = this.products.length;
 
-                var productForCar = new CartDropdownList();
+                var productForCar = new ProductInCartDropdownList();
                 productForCar.ProductName = product.Name;
                 productForCar.Count = product.Count;
                 this.cartDropdownList.push(productForCar);
@@ -59,54 +59,125 @@ export class CartService {
         }
     }
 
-    DeleteProduct(product: Product) {
+    DeleteProduct(product) {
+        if(product!=null && product!= undefined){
+            var deleteProduct: object;
+            if (product instanceof Product) {
+                deleteProduct = { Name: product.Name };
+    
+            }
+            if (product instanceof ProductInCartDropdownList) {
+                deleteProduct = { Name: product.ProductName };
+    
+            }
+    
+            this.DeleteInProductList(deleteProduct);
+            this.DeleteProductInDropdowListCart(deleteProduct);
+            this.DeleteProductInCookie(deleteProduct);
+    
+            this.numberInCart = this.products.length;
+            this.productsSubject.next(this.products);
+            this.productsInCart.next(this.cartDropdownList);
+    
+    
+            console.log(this.products);
+            console.log(this.cartDropdownList);
+        }
+    }
+
+    DeleteInProductList(product){
+        if (product != null && product != undefined) {            
+            for (let i = 0; i < this.products.length; i++) {
+                if (this.products[i].Name == product.Name) {
+                    if (this.products[i].Count == 1) {                    
+                        this.products.splice(i,1);                    
+                    } else
+                    {
+                        --this.products[i].Count;
+                    }                
+                }
+            }
+        }
+    }
+
+    DeleteProductInCookie(product){
+        var productName = product.Name;
+        var cookie:string = this.SearchCookieForUserName(this.UserName);
+        var newCookie = this.DecrementProductInCookie(cookie, productName);
+        if(newCookie == ''){
+
+        }
+        this.DecrementProductInCookie(cookie, productName)        
+        this.SetCookie(newCookie, 1);         
+    }
+
+    private DecrementProductInCookie(cookie:string, productName){
+        var indexProduct = cookie.indexOf(productName);
+        
+         if(indexProduct!=-1){            
+             var numberProductInCookie:number = indexProduct + productName.length+1;
+             var numberProduct = cookie[numberProductInCookie];
+             var newNumberProduct:number = parseInt(numberProduct) - 1;
+             let newCookie:string;
+             if(newNumberProduct==0){
+                newCookie=  this.DeleteNullProductInCookieListProducts(cookie, indexProduct, productName); 
+             }else{
+                newCookie = cookie.substring(0, numberProductInCookie) + newNumberProduct.toString() + cookie.substring(numberProductInCookie + 1, cookie.length);
+             }                    
+             
+             return newCookie;
+             
+         }       
+         return '';
+    }
+
+    DeleteNullProductInCookieListProducts(cookie:string, indexProduct:number, productName:string):string{
+        let numberCharProduct = productName.length;
+        let leftSeparator = cookie[indexProduct-1];
+        let indexLeftSeparartor:number = cookie.indexOf(leftSeparator);
+        let leftSubstring:string = cookie.substring(0, indexProduct);
+        
+
+        // +2 "," and  count products decimal number "3"
+        let indexRightSeparator = indexProduct + numberCharProduct + 2;
+        let rightSeparator = cookie[indexRightSeparator];
+        let rightSubstring = cookie.substring(indexRightSeparator, cookie.length);
+        
+
+        let newCookie:string;
+        if(leftSeparator == "[" && rightSeparator == ":"){
+          newCookie = leftSubstring + cookie.substring(indexRightSeparator + 1, cookie.length);            
+            
+        }
+        if(leftSeparator == ":" && rightSeparator == ":"){
+            newCookie = cookie.substring(0, indexProduct-1) + cookie.substring(indexRightSeparator, cookie.length);
+        }
+        if(leftSeparator == ":" && rightSeparator == "]"){
+            newCookie = cookie.substring(0, indexProduct - 1) + cookie.substring(indexRightSeparator, cookie.length);
+        }
+        if(leftSeparator == "[" && rightSeparator == "]"){
+            newCookie = cookie.substring(0, indexProduct-1);
+        }
+        return newCookie;
+    }
+
+    DeleteProductInDropdowListCart(product) {        
+        var newProductList: Array<Product> = [];
         if (product != null && product != undefined) {
-            for (let productItem of this.products) {
-                if (productItem.Name == product.Name && productItem.Descriptions == product.Descriptions) {
-                    let index = this.products.indexOf(productItem);
-                    if (index > -1) {
-                        this.products.splice(index, 1);
-                        this.numberInCart = this.products.length;
-                        this.productsSubject.next(this.products);
+            for (let i = 0; i < this.cartDropdownList.length; i++) {
+                
+                if (this.cartDropdownList[i].ProductName == product.Name) {
+                    if (this.cartDropdownList[i].Count == 1) {
+                        this.cartDropdownList.splice(i, 1);                        
+                    } else {
+                        --this.cartDropdownList[i].Count;
                     }
                 }
             }
         }
     }
 
-    DeleteProductDropdowListCart(product:CartDropdownList){
-        console.log(product);
-        var newProductList: Array<Product> = [];        
-        var indexInDropdown: number;
-        for (let i = 0; i < this.products.length; i++) {
-            if (this.products[i].Name == product.ProductName) {
-                if (this.products[i].Count == 1) {                    
-                    this.products.splice(i,1);                    
-                } else
-                {
-                    --this.products[i].Count;
-                }                
-            }
-        }
 
-        for(let i=0; i< this.products.length; i++){
-            if(this.cartDropdownList[i].ProductName == product.ProductName){
-                indexInDropdown = i;
-                if(this.cartDropdownList[i].Count ==1){
-                    this.cartDropdownList.splice(i,1);                    
-                } else{
-                    --this.cartDropdownList[i].Count;
-                }
-            }
-        }
-        this.productsSubject.next(this.products);
-        this.productsInCart.next(this.cartDropdownList);
-        
-    }
-
-
-
-    //Search dubliczte products and incremet count for products
     private IncremetDuplicateProduct(product:Product):boolean{
         var flag:boolean = false;
         for(let selectProduct of this.products){
@@ -131,10 +202,10 @@ export class CartService {
         if (listitemsWithoutComma) {
             var listItems = listitemsWithoutComma.split(":");
 
-            var listProducts: Array<CartDropdownList> = [];
+            var listProducts: Array<ProductInCartDropdownList> = [];
             for (var item of listItems) {
                 var itemArray = item.split(",");
-                var tmpProduct = new CartDropdownList();
+                var tmpProduct = new ProductInCartDropdownList();
                 tmpProduct.ProductName = itemArray[0]
                 tmpProduct.Count = +itemArray[1];
                 listProducts.push(tmpProduct);
@@ -148,7 +219,7 @@ export class CartService {
         var date = new Date();
         date.setTime(date.getTime() + (exdays * 24 * 60 * 60 * 1000));
         var expires = "expires=" + date.toUTCString();
-        document.cookie = "" + value + ";" + expires + ";path=/";
+        document.cookie = "" + value + ";" + expires + ";path=/";        
     }
 
     public AddProductToCookies(productName: string, productCount: number) {  
@@ -160,7 +231,7 @@ export class CartService {
             console.log(newCookieValue);
             this.SetCookie(newCookieValue, 1);  
         }else{
-            var newValueCookie = this.IncrementProduct(cookie, productName, productCount)
+            var newValueCookie = this.IncrementProductInCookie(cookie, productName, productCount)
              if(newValueCookie == ''){                
                 var tmpString =  ":" + productName + "," + productCount + "]";                   
                 newCookieValue = cookie.replace("]", tmpString);
@@ -173,7 +244,9 @@ export class CartService {
           
     }
 
-    private IncrementProduct(cookie:string, productName:string, productCount:number):string{
+    
+
+    private IncrementProductInCookie(cookie:string, productName:string, productCount:number):string{
         var indexProduct = cookie.indexOf(productName);
        
         if(indexProduct!=-1){            
@@ -209,7 +282,7 @@ export class CartService {
 
 }
 
-export class CartDropdownList {
+export class ProductInCartDropdownList {
     ProductName:string;
     Count:number;
 }

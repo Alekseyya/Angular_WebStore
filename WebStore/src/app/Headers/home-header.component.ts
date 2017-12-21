@@ -3,7 +3,7 @@ import { Input, Output, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
 import { FilterMarkService } from '../Services/filter-mark.service';
-import { CartService, CartDropdownList } from '../Services/cart.service';
+import { CartService, ProductInCartDropdownList } from '../Services/cart.service';
 import { Product } from '../Entities/product';
 
 @Component({
@@ -42,8 +42,8 @@ export class HomeHeaderComponent implements OnInit{
         );
     }
 
-    DeleteInCart(product:CartDropdownList){        
-        this.cartService.DeleteProductDropdowListCart(product);
+    DeleteInCart(product:ProductInCartDropdownList){        
+        this.cartService.DeleteProduct(product);
     }
 
     Search(){        
