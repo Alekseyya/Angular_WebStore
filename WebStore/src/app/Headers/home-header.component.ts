@@ -3,7 +3,7 @@ import { Input, Output, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
 import { FilterMarkService } from '../Services/filter-mark.service';
-import { CartService } from '../Services/cart.service';
+import { CartService, CartDropdownList } from '../Services/cart.service';
 import { Product } from '../Entities/product';
 
 @Component({
@@ -17,24 +17,33 @@ export class HomeHeaderComponent implements OnInit{
     newMark:string;
     numberInCart:number;
     products:Array<Product> = [];
+    cartInDropdowList:Array<object>;
+   
 
     constructor(private cartService : CartService,
          private filterMarkService : FilterMarkService) {
              this.products = this.cartService.products;
              this.numberInCart = this.cartService.numberInCart;
+             
          }
 
     ngOnInit() { 
         this.cartService.castedProducts.subscribe(
             (products: Array<Product>) => {                    
                this.numberInCart = this.cartService.numberInCart;
-               this.products = products;
+               this.products = products;               
+            }
+        );
+        this.cartService.castedProductsInCart.subscribe(
+            (products: Array<object>) => {
+                this.numberInCart = products.length;
+                this.cartInDropdowList = products;
             }
         );
     }
 
-    DeleteInCart(product:Product){
-        this.cartService.DeteProduct(product);
+    DeleteInCart(product:CartDropdownList){        
+        this.cartService.DeleteProductDropdowListCart(product);
     }
 
     Search(){        

@@ -19,6 +19,7 @@ export class RegisterComponent implements OnInit {
 
   user: RegisterUser = new RegisterUser();
 
+  
   constructor(private userService: UserService) {
     this.myForm = new FormGroup({
       "UserName": new FormControl('', [Validators.required, Validators.pattern("^[a-zA-Z0-9]+$")]),

@@ -49,8 +49,10 @@
                             </div>                            
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                            <div *ngFor="let product of products" class="dropdown-item">                                
-                                <span class="dropdown-item__name">{{product.Name}}</span>
+                            <div *ngFor="let product of cartInDropdowList" class="dropdown-item">                                
+                                <span class="dropdown-item__name">{{product.ProductName}}
+                                    <input value="{{product.Count}}" type="text">
+                                </span>                                
                                 <button class="dropdown-item__button" (click)="DeleteInCart(product)" type="button">X</button>
                             </div>
                         </div>

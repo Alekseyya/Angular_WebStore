@@ -5,12 +5,18 @@ import { Product } from "../Entities/product";
 import { AuthenticationService } from "./authentication.service";
 import { UserService } from "./user.service";
 import { findLast } from "@angular/compiler/src/directive_resolver";
+import { Observable } from "rxjs/Observable";
 
 
 @Injectable()
 export class CartService {
-
+    
     products: Array<Product> = [];
+    cartDropdownList:Array<CartDropdownList> = [];
+    
+    private productsInCart = new Subject<Array<CartDropdownList>>();
+    public castedProductsInCart = this.productsInCart.asObservable();
+
     private productsSubject = new Subject<Array<Product>>();
 
     public castedProducts = this.productsSubject.asObservable();
@@ -18,13 +24,17 @@ export class CartService {
 
     private UserName: string;
 
+   
+
     constructor(private authenticationService: AuthenticationService,
         private userService: UserService) {
+
         this.userService.GetUsers().subscribe(
             users => {
                 for (let user of users) {
                     if (this.SearchCookieForUserName(user.UserName)) {                        
                         this.UserName = user.UserName;
+                        this.GetAllProductsInCookie(this.UserName);
                     }
                 }
             });
@@ -33,17 +43,23 @@ export class CartService {
 
     AddProduct(product: Product) {
         if (product != null && product != undefined) {
-            this.products.push(product);
-            this.numberInCart = this.products.length;
-            this.productsSubject.next(this.products);
-            this.AddProductToCookies(product.Name, product.Count);
+            if(!this.IncremetDuplicateProduct(product)){
+                this.products.push(product);
+                this.numberInCart = this.products.length;
 
-            //test
-            //this.GetAllProductsInCookie(this.UserName)
+                var productForCar = new CartDropdownList();
+                productForCar.ProductName = product.Name;
+                productForCar.Count = product.Count;
+                this.cartDropdownList.push(productForCar);
+
+                this.productsInCart.next(this.cartDropdownList);
+                this.productsSubject.next(this.products);
+                this.AddProductToCookies(product.Name, product.Count);
+            }                 
         }
     }
 
-    DeteProduct(product: Product) {
+    DeleteProduct(product: Product) {
         if (product != null && product != undefined) {
             for (let productItem of this.products) {
                 if (productItem.Name == product.Name && productItem.Descriptions == product.Descriptions) {
@@ -58,18 +74,74 @@ export class CartService {
         }
     }
 
-    public GetAllProductsInCookie(userName: string) {
-        var cookie = this.SearchCookieForUserName(userName);             
-        var listitemsWithoutComma = cookie.substring(cookie.indexOf("[")+1, cookie.indexOf("]"));
-        var listItems = listitemsWithoutComma.split(":");
-        
-        var listProducts:Array<object> = [];
-        for(var item of listItems){
-            var itemArray = item.split(",");
-            var tmpProduct = {name:itemArray[0], count:itemArray[1]};
-            listProducts.push(tmpProduct);
+    DeleteProductDropdowListCart(product:CartDropdownList){
+        console.log(product);
+        var newProductList: Array<Product> = [];        
+        var indexInDropdown: number;
+        for (let i = 0; i < this.products.length; i++) {
+            if (this.products[i].Name == product.ProductName) {
+                if (this.products[i].Count == 1) {                    
+                    this.products.splice(i,1);                    
+                } else
+                {
+                    --this.products[i].Count;
+                }                
+            }
         }
 
+        for(let i=0; i< this.products.length; i++){
+            if(this.cartDropdownList[i].ProductName == product.ProductName){
+                indexInDropdown = i;
+                if(this.cartDropdownList[i].Count ==1){
+                    this.cartDropdownList.splice(i,1);                    
+                } else{
+                    --this.cartDropdownList[i].Count;
+                }
+            }
+        }
+        this.productsSubject.next(this.products);
+        this.productsInCart.next(this.cartDropdownList);
+        
+    }
+
+
+
+    //Search dubliczte products and incremet count for products
+    private IncremetDuplicateProduct(product:Product):boolean{
+        var flag:boolean = false;
+        for(let selectProduct of this.products){
+            if(selectProduct.Name == product.Name){
+                selectProduct.Count += product.Count;
+                flag = true;
+            }
+        }
+        flag = false;
+        for(let selectProduct of this.cartDropdownList){
+            if(selectProduct.ProductName == product.Name){
+                selectProduct.Count += product.Count;
+                flag = true;
+            }
+        }         
+        return flag;
+    }
+
+    public GetAllProductsInCookie(userName: string) {
+        var cookie = this.SearchCookieForUserName(userName);
+        var listitemsWithoutComma = cookie.substring(cookie.indexOf("[") + 1, cookie.indexOf("]"));
+        if (listitemsWithoutComma) {
+            var listItems = listitemsWithoutComma.split(":");
+
+            var listProducts: Array<CartDropdownList> = [];
+            for (var item of listItems) {
+                var itemArray = item.split(",");
+                var tmpProduct = new CartDropdownList();
+                tmpProduct.ProductName = itemArray[0]
+                tmpProduct.Count = +itemArray[1];
+                listProducts.push(tmpProduct);
+            }
+            this.cartDropdownList = listProducts;
+            this.productsInCart.next(listProducts);
+        }
     }
 
     private SetCookie(value, exdays) {
@@ -89,15 +161,12 @@ export class CartService {
             this.SetCookie(newCookieValue, 1);  
         }else{
             var newValueCookie = this.IncrementProduct(cookie, productName, productCount)
-             if(newValueCookie == ''){
-                 console.log("Not found");
+             if(newValueCookie == ''){                
                 var tmpString =  ":" + productName + "," + productCount + "]";                   
                 newCookieValue = cookie.replace("]", tmpString);
                 console.log(newCookieValue);
                 this.SetCookie(newCookieValue, 1); 
-             } else{
-                 console.log(newValueCookie);
-                 console.log("found");
+             } else{                
                 this.SetCookie(newValueCookie,1);
              }
         }
@@ -138,5 +207,10 @@ export class CartService {
 
     }
 
+}
+
+export class CartDropdownList {
+    ProductName:string;
+    Count:number;
 }
 
