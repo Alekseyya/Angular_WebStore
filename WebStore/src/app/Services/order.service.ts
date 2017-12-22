@@ -3,21 +3,42 @@ import { Order } from '../Entities/order';
 import { Product } from '../Entities/product';
 import { forEach } from '@angular/router/src/utils/collection';
 import { CartService } from './cart.service';
+import { ProductService } from './product.service';
+import { CookieService } from './cookie.service';
 
 @Injectable()
 export class OrderService {
     Orders: Array<Order> = [];
     
 
-    constructor(private cartService: CartService) {
+    constructor(
+        private cartService: CartService, 
+        private productService:ProductService,
+        private cookieService: CookieService
+        ) {}
+
+    public CreateNewOrder(products: Array<Product>){
+        let newOrder = new Order();
+        newOrder.Id = this.FindLastIndexOrder();
+        newOrder.OrderDate = this.DateNow();
         
     }
 
-    public CreateNewOrder(products: Array<Product>){
-        // let newOrder = new Order();
-        // newOrder.Id = this.FindLastIndexOrder();
-        // newOrder.OrderDate = this.DateNow();
-        // newOrder.Products = 
+    public GetAllProductsInCookie(userName:string){
+        let listProductsInCookie:Array<Product> = new Array<Product>();
+        let listItems = this.cookieService.GetAllProductsInCookie(userName);
+        
+        for(let item of listItems){
+            let itemArray = item.split(",");            
+            var tmpProduct = new Product(itemArray[0], "", 0, itemArray[1]);
+            listProductsInCookie.push(tmpProduct);
+        }
+
+        this.productService.GetProductsForRequest(listProductsInCookie);
+        //сравнить и создать список продуктов
+        //отпривать данный список, чтобы он мне вернул его из бд
+        
+        
     }
 
     public FindLastIndexOrder():number{

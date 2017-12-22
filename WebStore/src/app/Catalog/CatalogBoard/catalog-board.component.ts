@@ -34,6 +34,10 @@ export class CatalogBoard implements OnInit {
         });         
       }
 
+  TestClick(){    
+    this.productService.GetProductByName();    
+  }
+
   BreackUpColumns(numbersInColumn:number, marks: Array<Mark>): Array<Array<Mark>> {
     let doubleArray = new Array<Array<Mark>>();
     let tmpArray: Array<Mark> = [];
