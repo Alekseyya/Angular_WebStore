@@ -37,7 +37,7 @@ export class CartComponent implements OnInit {
   }
 
   DeleteProduct(product: Product) {
-    this.cartService.DeteProduct(product);
+    this.cartService.DeleteProduct(product);
   }
 
   LessQuantityProduct(product: Product) {

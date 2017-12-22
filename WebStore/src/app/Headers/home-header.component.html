@@ -36,10 +36,7 @@
                 </div>
             </div>
             <div class="shop-functions col-md-4 row">
-                <div class="shop-functions-block-cart col-md-4">
-                    <!-- <a routerLink="/cart" href="" class="shop-functions__cart">
-                        <span>Cart</span>
-                    </a> -->
+                <div class="shop-functions-block-cart col-md-4">                   
                     <div class="cart-dropdown dropdown">
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true"
                             aria-expanded="false">
@@ -55,16 +52,14 @@
                                 </span>                                
                                 <button class="dropdown-item__button" (click)="DeleteInCart(product)" type="button">X</button>
                             </div>
+                            <div class="dropdown-menu__checkout">
+                                <button class="btn btn-success" (click)="Checkout()">
+                                    <a href="" routeLink="/orders">Checkout</a>
+                                </button>
+                            </div>
                         </div>
                     </div>
-                
-                
-                </div>
-                <div class="shop-functions-block-orders col-md-4 ">
-                    <a href="" class="shop-functiond__orders glyphicon glyphicon-folder-close">                        
-                        <span>Orders</span> 
-                    </a>
-                </div>
+                </div>                
             </div>
         </div>
     </div>

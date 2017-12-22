@@ -1,12 +1,41 @@
 import { Injectable } from '@angular/core';
 import { Order } from '../Entities/order';
+import { Product } from '../Entities/product';
+import { forEach } from '@angular/router/src/utils/collection';
+import { CartService } from './cart.service';
 
 @Injectable()
 export class OrderService {
-    Orders: Array<Order>;
+    Orders: Array<Order> = [];
+    
 
-    constructor() {
-        this.Orders = [];
+    constructor(private cartService: CartService) {
+        
+    }
+
+    public CreateNewOrder(products: Array<Product>){
+        // let newOrder = new Order();
+        // newOrder.Id = this.FindLastIndexOrder();
+        // newOrder.OrderDate = this.DateNow();
+        // newOrder.Products = 
+    }
+
+    public FindLastIndexOrder():number{
+        let maxId:number = this.Orders[0].Id;
+        for(let order of this.Orders){
+            if(order.Id > maxId){
+                maxId = order.Id;
+            }
+        }
+        let newId = maxId + 1;
+        return  newId;
+    }
+
+    public DateNow(): string {
+        let dateNow = new Date();
+        let date = dateNow.toDateString();
+        let time = dateNow.toTimeString();
+        return date + time;
     }
 
     public AddOrder(order: Order) {

@@ -50,6 +50,11 @@ export class HomeHeaderComponent implements OnInit{
         this.filterMarkService.FindProduct(this.findMark);
     }
 
+    Checkout(){
+        
+    }
+
+    //#region  Old code
     // FindMark(){
     //   this.filterMarkService.Find(this.findMark);   
     // }
@@ -83,4 +88,7 @@ export class HomeHeaderComponent implements OnInit{
     //     }
     //     return false;        
     // }
+    //#endregion
+
+    
 }

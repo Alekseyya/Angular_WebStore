@@ -23,6 +23,7 @@ import { CartService } from './Services/cart.service';
 import { UserService } from './Services/user.service';
 
 import { OrderService } from './Services/order.service';
+import { CookieService } from './Services/cookie.service'
 
 import { FilterMarkService } from './Services/filter-mark.service';
 
@@ -41,7 +42,7 @@ const appRoutes: Routes =[
   { path: '', component: HomeComponent},
   { path: 'cart', component: CartComponent},
   { path: 'catalog', component: CatalogComponent},
-  { path: 'order', component: OrderComponent},
+  { path: 'orders', component: OrderComponent},
   { path: 'register', component: RegisterComponent},
   { path: 'login', component: LoginComponent},
   { path: 'about', component: AboutComponent},  
@@ -75,7 +76,7 @@ const appRoutes: Routes =[
     HttpClientModule, ReactiveFormsModule
   ],
   providers: [AuthenticationService, ProductService, 
-    FilterMarkService, CartService, UserService, OrderService],
+    FilterMarkService, CartService, UserService,CookieService, OrderService],
   bootstrap: [AppComponent]  
 })
 export class AppModule { }
