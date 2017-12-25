@@ -1,10 +1,10 @@
+import { ProductItem } from '../Entities/product';
 import { Injectable } from '@angular/core';
 import { Order } from '../Entities/order';
-import { Product } from '../Entities/product';
-import { forEach } from '@angular/router/src/utils/collection';
 import { CartService } from './cart.service';
 import { ProductService } from './product.service';
 import { CookieService } from './cookie.service';
+
 
 @Injectable()
 export class OrderService {
@@ -13,11 +13,11 @@ export class OrderService {
 
     constructor(
         private cartService: CartService, 
-        private productService:ProductService,
+        private productService: ProductService,
         private cookieService: CookieService
         ) {}
 
-    public CreateNewOrder(products: Array<Product>){
+    public CreateNewOrder(products: Array<ProductItem>){
         let newOrder = new Order();
         newOrder.Id = this.FindLastIndexOrder();
         newOrder.OrderDate = this.DateNow();
@@ -25,18 +25,18 @@ export class OrderService {
     }
 
     public GetAllProductsInCookie(userName:string){
-        let listProductsInCookie:Array<Product> = new Array<Product>();
+        let listProductsInCookie:Array<ProductItem> = new Array<ProductItem>();
         let listItems = this.cookieService.GetAllProductsInCookie(userName);
         
         for(let item of listItems){
             let itemArray = item.split(",");            
-            var tmpProduct = new Product(itemArray[0], "", 0, itemArray[1]);
+            var tmpProduct = new ProductItem(itemArray[0], "", 0, itemArray[1]);
             listProductsInCookie.push(tmpProduct);
         }
 
         this.productService.GetProductsForRequest(listProductsInCookie);
-        //сравнить и создать список продуктов
-        //отпривать данный список, чтобы он мне вернул его из бд
+        // //сравнить и создать список продуктов
+        // //отпривать данный список, чтобы он мне вернул его из бд
         
         
     }

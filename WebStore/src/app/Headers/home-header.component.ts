@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
 import { FilterMarkService } from '../Services/filter-mark.service';
 import { CartService, ProductInCartDropdownList } from '../Services/cart.service';
-import { Product } from '../Entities/product';
+import { ProductItem } from '../Entities/product';
 
 @Component({
     selector: 'home-header',
@@ -16,7 +16,7 @@ export class HomeHeaderComponent implements OnInit{
     findMark:string;
     newMark:string;
     numberInCart:number;
-    products:Array<Product> = [];
+    products:Array<ProductItem> = [];
     cartInDropdowList:Array<object>;
    
 
@@ -24,12 +24,11 @@ export class HomeHeaderComponent implements OnInit{
          private filterMarkService : FilterMarkService) {
              this.products = this.cartService.products;
              this.numberInCart = this.cartService.numberInCart;
-             
          }
 
     ngOnInit() { 
         this.cartService.castedProducts.subscribe(
-            (products: Array<Product>) => {                    
+            (products: Array<ProductItem>) => {                    
                this.numberInCart = this.cartService.numberInCart;
                this.products = products;               
             }
@@ -38,6 +37,7 @@ export class HomeHeaderComponent implements OnInit{
             (products: Array<object>) => {
                 this.numberInCart = products.length;
                 this.cartInDropdowList = products;
+                
             }
         );
     }

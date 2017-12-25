@@ -2,11 +2,13 @@ import { Component} from '@angular/core';
 import { PictureService } from '../../Services/picture.service';
 import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Picture } from '../../Entities/picture';
-import { Product } from '../../Entities/product';
-import { PagerService } from '../../Services/pager.service'
+import { ProductItem } from '../../Entities/product';
+
+import { PagerService } from '../../Services/pager.service';
 import { ProductService } from '../../Services/product.service';
 import { FilterMarkService } from '../../Services/filter-mark.service';
 import { CartService } from '../../Services/cart.service';
+import { Car } from '../../Entities/car';
 
 
 @Component({
@@ -22,8 +24,8 @@ export class CatalogList implements OnInit {
   // Pictures:Array<Picture> =[]
   // TmpPicture: any;
 
-  Products: Array<Product> =[];
-  Product: Product;
+  Products: Array<ProductItem> =[];
+  // Product1: Product;
 
   // pager object
   pager: any = {};
@@ -41,26 +43,26 @@ export class CatalogList implements OnInit {
   }
 
   ngOnInit() {
-    this.productService.GetProducts().subscribe((data: Array<Product>) => {
-
+    this.productService.GetProducts().subscribe((data: Array<ProductItem>) => {      
       for (let product of data) {       
-        let newProduct = new Product(product.Name, product.Descriptions, product.Price,
+        let newProduct = new ProductItem(product.Name, product.Descriptions, product.Price,
           product.Count);
+        newProduct.Id = product.Id;
         newProduct.Pictures = product.Pictures;
         this.Products.push(newProduct);
-      }
+      }      
       this.setPage(1);
 
     });
     //add change callback list products
     this.filterMarkService.castProducts.subscribe(
-      (productsList: Array<Product>) => {        
+      (productsList: Array<ProductItem>) => {        
         this.Products = productsList;
         this.setPage(1);
       });    
   }  
 
-  public Buy(product:Product){
+  public Buy(product:ProductItem){
     this.cartService.AddProduct(product);
   }
 

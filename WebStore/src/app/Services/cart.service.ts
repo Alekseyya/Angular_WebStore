@@ -1,29 +1,30 @@
 import { Injectable, SimpleChanges } from "@angular/core";
 import { BehaviorSubject } from "rxjs/BehaviorSubject"
 import { Subject } from "rxjs/Subject";
-import { Product } from "../Entities/product";
+import { ProductItem } from "../Entities/product";
 import { AuthenticationService } from "./authentication.service";
 import { UserService } from "./user.service";
 import { findLast } from "@angular/compiler/src/directive_resolver";
 import { Observable } from "rxjs/Observable";
 import { CookieService } from "./cookie.service";
+import { ProductLocalStorage } from "../Entities/product-localstorage";
 
 
 @Injectable()
 export class CartService {
     
-    products: Array<Product> = [];
+    products: Array<ProductItem> = [];
     cartDropdownList:Array<ProductInCartDropdownList> = [];
     
     private productsInCart = new Subject<Array<ProductInCartDropdownList>>();
     public castedProductsInCart = this.productsInCart.asObservable();
 
-    private productsSubject = new Subject<Array<Product>>();
+    private productsSubject = new Subject<Array<ProductItem>>();
 
     public castedProducts = this.productsSubject.asObservable();
     public numberInCart: number = this.products.length;
 
-    private UserName: string;
+    public UserName: string;
 
    
 
@@ -67,7 +68,54 @@ export class CartService {
         }
     }
 
-    AddProduct(product: Product) {
+    GetInLocalStorage(userName:string):Array<ProductLocalStorage>{
+        if(userName){
+            let productsInLocalStorage = this.DeserializeOfJson(userName);
+            let products:Array<ProductLocalStorage>;
+            for(let product of productsInLocalStorage){
+                products.push(new ProductLocalStorage(product.Id, product.Name, product.Count));                
+            }
+            return products;
+        }   
+        return null;
+    }
+
+    SetToLocalStorage(userName:string, data:ProductLocalStorage):void{              
+        if (data != null && userName.length != 0) {
+            if(this.IsDataInLocalStorage(userName)){
+                let currentListProducts = this.DeserializeOfJson(userName);
+                currentListProducts.push(data);
+                localStorage.setItem(userName, this.SerializeToJson(currentListProducts));
+            }else{
+                
+                localStorage.setItem(userName, this.SerializeToJson(data));
+            }
+        }
+    }
+
+    IsDataInLocalStorage(userName:string):boolean{
+        if(localStorage.getItem(userName)){
+            return true;
+        }
+        return false;
+    }
+
+    DeserializeOfJson(userName:string):Array<ProductLocalStorage>{
+        return JSON.parse(localStorage.getItem(userName));
+    }
+
+    //serialise one object
+    SerializeToJson(data:any):string{
+       return JSON.stringify(data);
+    }
+
+    DeleteLocalStorage(userName:string){
+        if(userName){
+            localStorage.removeItem(userName);
+        }
+    }
+
+    AddProduct(product: ProductItem) {
         if (product != null && product != undefined) {
             if(!this.IncremetDuplicateProduct(product)){
                 this.products.push(product);
@@ -89,7 +137,7 @@ export class CartService {
     DeleteProduct(product) {
         if(product!=null && product!= undefined){
             var deleteProduct: object;
-            if (product instanceof Product) {
+            if (product instanceof ProductItem) {
                 deleteProduct = { Name: product.Name };
     
             }
@@ -128,7 +176,7 @@ export class CartService {
     }
   
     DeleteProductInDropdowListCart(product) {        
-        var newProductList: Array<Product> = [];
+        var newProductList: Array<ProductItem> = [];
         if (product != null && product != undefined) {
             for (let i = 0; i < this.cartDropdownList.length; i++) {
                 
@@ -144,7 +192,7 @@ export class CartService {
     }
 
 
-    private IncremetDuplicateProduct(product:Product):boolean{
+    private IncremetDuplicateProduct(product:ProductItem):boolean{
         var flag:boolean = false;
         for(let selectProduct of this.products){
             if(selectProduct.Name == product.Name){
@@ -190,4 +238,6 @@ export class ProductInCartDropdownList {
     ProductName:string;
     Count:number;
 }
+
+
 

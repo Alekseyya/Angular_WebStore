@@ -1,5 +1,5 @@
 import { Component} from '@angular/core';
-import { Product } from '../../Entities/product';
+import { ProductItem } from '../../Entities/product';
 import { Mark } from '../../Entities/mark';
 import { ProductService} from '../../Services/product.service';
 import { MarkService} from '../../Services/mark.service';
@@ -15,8 +15,8 @@ export class CatalogBoard implements OnInit {
  
   BootstrapColumn ="col-md-3";
 
-  Products: Array<Product> = [];
-  Product: Product;
+  Products: Array<ProductItem> = [];
+  Product: ProductItem;
 
   MarksColumn: Array<Array<Mark>> = [];
   Mark: Mark;

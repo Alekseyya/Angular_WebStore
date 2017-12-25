@@ -1,6 +1,6 @@
-import { Product } from '../Entities/Product';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ProductItem } from '../Entities/product';
 
 @Injectable()
 export class ProductService {
@@ -21,18 +21,18 @@ export class ProductService {
         let product = {
             hello: "value"
         };       
-        let k =  this.http.post(this.ProductsUrl + "/testmethod", product);
-        debugger;
-k.toPromise().then(e => {debugger;});
+        this.http.post(this.ProductsUrl + "/testmethod", product, {headers: headers}).toPromise();
+        
     }
 
-    GetProductsForRequest(products: Array<Product>){
-        let tmpProducts:Array<object> = [];
-        for(let product of products){
-            let tmp = { Name: product.Name}
-            tmpProducts.push(tmp);
+    GetProductsForCart(arrayProductsId:Array<number>){
+        if(arrayProductsId.length!=0){
+            this.http.post(this.ProductsUrl + "/GetProductsForCart", {productsId: arrayProductsId});
         }
-        this.http.post(this.ProductsUrl + "/getproducts", tmpProducts);
+        else{
+            throw console.log("productId is empty");
+        }
+        
     }
 
     // DeleteProduct(product: Product) {

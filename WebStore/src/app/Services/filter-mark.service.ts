@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs/BehaviorSubject"
 import { Subject } from "rxjs/Subject";
 import { ProductService } from '../Services/product.service';
-import { Product } from "../Entities/product";
+import { ProductItem } from "../Entities/product";
 import { OnInit } from "@angular/core/src/metadata/lifecycle_hooks";
 
 @Injectable()
@@ -10,31 +10,32 @@ export class FilterMarkService implements OnInit {
     
 
     constructor(private productService: ProductService) {
-        this.productService.GetProducts().subscribe((products: Array<Product>) => {
+        this.productService.GetProducts().subscribe((products: Array<ProductItem>) => {
             for (let product of products) {
-                let newProduct = new Product(product.Name, product.Descriptions, product.Price,
+                let newProduct = new ProductItem(product.Name, product.Descriptions, product.Price,
                     product.Count);
+                newProduct.Id = product.Id;
                 newProduct.Pictures = product.Pictures;
                 this.Products.push(newProduct);
             }                   
         });
     }
 
-    private Products: Array<Product> = [];
-    public subjectProducts = new Subject<Array<Product>>();
+    private Products: Array<ProductItem> = [];
+    public subjectProducts = new Subject<Array<ProductItem>>();
     public castProducts = this.subjectProducts.asObservable();
 
 
     ngOnInit(): void {
-        // this.productService.GetProducts().subscribe((products: Array<Product>) => {
-        //     for (let product of products) {
-        //         let newProduct = new Product(product.Name, product.Descriptions, product.Price,
-        //             product.Count);
-        //         newProduct.Pictures = product.Pictures;
-        //         this.Products.push(newProduct);
-        //     }
-        //     console.log("!!!!");            
-        // });
+        this.productService.GetProducts().subscribe((products: Array<ProductItem>) => {
+            for (let product of products) {
+                let newProduct = new ProductItem(product.Name, product.Descriptions, product.Price,
+                    product.Count);
+                newProduct.Id = product.Id;
+                newProduct.Pictures = product.Pictures;
+                this.Products.push(newProduct);
+            }                      
+        });
     }
 
     public FindProduct(mark:string){ 
@@ -47,8 +48,8 @@ export class FilterMarkService implements OnInit {
         }
     }
 
-    private SearchMarkInListProducts (findMark:string):Array<Product>{
-        var tmpListProducts = new Array<Product>();        
+    private SearchMarkInListProducts (findMark:string):Array<ProductItem>{
+        var tmpListProducts = new Array<ProductItem>();        
         for(let product of this.Products){            
             if(product.Name.toLowerCase().includes(findMark.toLowerCase())){
                 tmpListProducts.push(product);

@@ -1,10 +1,11 @@
-import { Picture } from "./picture";
+import { Picture } from '../Entities/picture'
 
-export class Product{
+export class ProductItem{
+    Id:number;
     Name:string;
     Descriptions:string;
-    Price:number;
     Count:number;
+    Price:number;
     Pictures:Array<Picture>=[];
    
     constructor(name:string, descriptions:string, price:number, count:number) {   
@@ -13,4 +14,4 @@ export class Product{
       this.Price = price;
       this.Count = count;               
     }
-  }
+}

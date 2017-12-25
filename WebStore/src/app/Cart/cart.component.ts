@@ -1,12 +1,12 @@
 import { Component, SimpleChanges } from '@angular/core';
-import { Product } from '../Entities/product';
+import { ProductItem } from '../Entities/product';
 import { CartService } from '../Services/cart.service';
 import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
 import { OrderService } from '../Services/order.service';
 import { Order } from '../Entities/order';
 import { UserService } from '../Services/user.service';
-
-
+import { ProductService } from '../Services/product.service';
+import { CookieService } from '../Services/cookie.service';
 
 @Component({
   selector: 'cart',
@@ -15,32 +15,36 @@ import { UserService } from '../Services/user.service';
 
 })
 export class CartComponent implements OnInit {
-  products: Array<Product> = [];
+  products: Array<ProductItem> = [];
   count:string;
  
+  UserName:string;
 
   ngOnInit(): void {
-    this.cartService.castedProducts.subscribe(
-      (products: Array<Product>) => {
-        console.log(products);
-        this.products = products;
-      }
-    );
+    // this.cartService.castedProducts.subscribe(
+    //   (products: Array<ProductItem>) => {
+    //     console.log(products);
+    //     this.products = products;
+    //   }
+    // );
+
+
+    this.ReadProductsInCookie();
+    
   }
 
   constructor(private cartService: CartService,
               private orderService: OrderService,
-              private userService: UserService) {    
-    this.products = this.cartService.products;
-    console.log(this.cartService.products);
-
+              private userService: UserService,
+              private productService: ProductService,
+              private cookieService: CookieService) { 
   }
 
-  DeleteProduct(product: Product) {
+  DeleteProduct(product: ProductItem) {
     this.cartService.DeleteProduct(product);
   }
 
-  LessQuantityProduct(product: Product) {
+  LessQuantityProduct(product: ProductItem) {
     for (let productItem of this.products) {
       if (product.Name == productItem.Name && product.Descriptions == productItem.Descriptions) {
         if (productItem.Count >= 2) {
@@ -49,8 +53,38 @@ export class CartComponent implements OnInit {
       }
     }
   }
+  
+  //прочитать из кукисов товары, найти их в бд и отобразить
 
-  MoreQuantityProduct(product: Product) {
+  ReadProductsInCookie(){
+    
+    const loadUser = new Promise((resolve, reject) => {
+      this.userService.GetUsers().subscribe(
+        users => {
+          for (let user of users) {
+            if (this.cookieService.SearchCookieForUserName(user.UserName)) {
+              this.UserName = user.UserName;
+               let listProducts = this.cookieService.GetAllProductsInCookie(this.UserName);
+              resolve(listProducts);
+            }else{
+              reject();
+            }            
+          }
+        });
+    })
+
+    loadUser.then((listProducts)=>{
+      //var a = this.productService.GetProductsForCart().subscribe();
+    })
+
+    loadUser.catch((res)=>{
+      console.log("Don't have cookir for user.")
+    })
+    
+    //
+  }
+
+  MoreQuantityProduct(product: ProductItem) {
     console.log(product);
     for (let productItem of this.products) {
       if (product.Name == productItem.Name && product.Descriptions == productItem.Descriptions) {
@@ -82,7 +116,7 @@ export class CartComponent implements OnInit {
 
   }
 
-  AddToOrder(product:Product){
+  AddToOrder(product:ProductItem){
     let newOrder:Order = new Order();
    
     
