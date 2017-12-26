@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { ProductItem } from '../Entities/product';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class ProductService {
@@ -25,14 +26,15 @@ export class ProductService {
         
     }
 
-    GetProductsForCart(arrayProductsId:Array<number>){
-        if(arrayProductsId.length!=0){
-            this.http.post(this.ProductsUrl + "/GetProductsForCart", {productsId: arrayProductsId});
+    GetProductsForCart(arrayProductsId:Array<number>): Observable<object>{ 
+        if(arrayProductsId.length!=0){            
+            
+            let params = new HttpParams();
+            for(let productId of arrayProductsId){
+               params = params.append('productsId', productId.toString());
+            }
+          return this.http.get(this.ProductsUrl + "/GetProductsForCart", {params : params});
         }
-        else{
-            throw console.log("productId is empty");
-        }
-        
     }
 
     // DeleteProduct(product: Product) {

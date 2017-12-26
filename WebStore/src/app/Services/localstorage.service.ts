@@ -27,19 +27,6 @@ export class LocalStoreService {
             });
     }
 
-    public GetAdditionalInFormationFroProduct(userName:string):Array<ProductItem>{
-        let data = this.ReadLocalStorage(userName);
-        if (data != null) {
-            let arrayId: Array<number> = [];
-            for (let productId of data) {
-                arrayId.push(productId.Id);
-            }
-            console.log()
-            //this.productService.GetProductsForCart(arrayId);
-        }
-        return null;      
-    }
-
     public ReadLocalStorage(userName: string): Array<ProductLocalStorage> {
         if (userName) {
             let products: Array<ProductLocalStorage> = this.DeserializeOfJson(userName);

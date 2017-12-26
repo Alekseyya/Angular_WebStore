@@ -23,16 +23,7 @@ export class CartComponent implements OnInit {
   UserName:string;
 
   ngOnInit(): void {
-    // this.cartService.castedProducts.subscribe(
-    //   (products: Array<ProductItem>) => {
-    //     console.log(products);
-    //     this.products = products;
-    //   }
-    // );
-
-
-    this.ReadProductsInLocalStorage();
-    
+    this.ReadProductsInLocalStorage();    
   }
 
   constructor(private cartService: CartService,
@@ -44,6 +35,9 @@ export class CartComponent implements OnInit {
                 
                 
               
+  }
+  Test(){
+    this.productService.GetProductsForCart([1,2,3]);
   }
 
   DeleteProduct(product: ProductItem) {
@@ -60,6 +54,18 @@ export class CartComponent implements OnInit {
     }
   }
   
+  public GetAdditionalInFormationFroProduct(userName:string){
+    let data = this.localStorageService.ReadLocalStorage(userName);
+    if (data != null) {
+        let arrayId: Array<number> = [];
+        for (let productId of data) {
+            arrayId.push(productId.Id);
+        }
+        this.productService.GetProductsForCart(arrayId).subscribe((products:Array<ProductItem>)=>{
+            this.products = products;
+        });       
+    }    
+}
 
   ReadProductsInLocalStorage(){
     
@@ -67,22 +73,19 @@ export class CartComponent implements OnInit {
       this.userService.GetUsers().subscribe(
         users => {
           for (let user of users) {
-            let items = this.localStorageService.GetAdditionalInFormationFroProduct(user.UserName);
-            if(items){
-              resolve();  
-            }    
+            this.GetAdditionalInFormationFroProduct(user.UserName); 
           }
-          reject();
+          reject("Error!");
         });
     })
 
-    loadPage.then((res)=>{
-      console.log("sd");
-    });  
+    // loadPage.then((res)=>{
+    //   console.log("Ok" + res)
+    // })
 
-    loadPage.catch((res)=>{
-      console.log("Don't have items of localstorage for user.")
-    })
+    // loadPage.catch((res)=>{
+    //   console.log("Don't have items of localstorage for user." + res)
+    // })
     
   }
 
@@ -98,10 +101,7 @@ export class CartComponent implements OnInit {
     console.log(this.products);
   }
 
-  Test(value){
-    alert(value);
-  }
-
+  
   ChangeQuantityProduct(value) {
    
     console.log(value);
