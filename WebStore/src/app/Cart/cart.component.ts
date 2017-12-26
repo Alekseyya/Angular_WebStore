@@ -7,6 +7,8 @@ import { Order } from '../Entities/order';
 import { UserService } from '../Services/user.service';
 import { ProductService } from '../Services/product.service';
 import { CookieService } from '../Services/cookie.service';
+import { ProductLocalStorage } from '../Entities/product-localstorage';
+import { LocalStoreService } from '../Services/localstorage.service';
 
 @Component({
   selector: 'cart',
@@ -29,7 +31,7 @@ export class CartComponent implements OnInit {
     // );
 
 
-    this.ReadProductsInCookie();
+    this.ReadProductsInLocalStorage();
     
   }
 
@@ -37,7 +39,11 @@ export class CartComponent implements OnInit {
               private orderService: OrderService,
               private userService: UserService,
               private productService: ProductService,
-              private cookieService: CookieService) { 
+              private cookieService: CookieService,
+              private localStorageService: LocalStoreService) {
+                
+                
+              
   }
 
   DeleteProduct(product: ProductItem) {
@@ -54,34 +60,30 @@ export class CartComponent implements OnInit {
     }
   }
   
-  //прочитать из кукисов товары, найти их в бд и отобразить
 
-  ReadProductsInCookie(){
+  ReadProductsInLocalStorage(){
     
-    const loadUser = new Promise((resolve, reject) => {
+    const loadPage = new Promise((resolve, reject) => {
       this.userService.GetUsers().subscribe(
         users => {
           for (let user of users) {
-            if (this.cookieService.SearchCookieForUserName(user.UserName)) {
-              this.UserName = user.UserName;
-               let listProducts = this.cookieService.GetAllProductsInCookie(this.UserName);
-              resolve(listProducts);
-            }else{
-              reject();
-            }            
+            let items = this.localStorageService.GetAdditionalInFormationFroProduct(user.UserName);
+            if(items){
+              resolve();  
+            }    
           }
+          reject();
         });
     })
 
-    loadUser.then((listProducts)=>{
-      //var a = this.productService.GetProductsForCart().subscribe();
-    })
+    loadPage.then((res)=>{
+      console.log("sd");
+    });  
 
-    loadUser.catch((res)=>{
-      console.log("Don't have cookir for user.")
+    loadPage.catch((res)=>{
+      console.log("Don't have items of localstorage for user.")
     })
     
-    //
   }
 
   MoreQuantityProduct(product: ProductItem) {

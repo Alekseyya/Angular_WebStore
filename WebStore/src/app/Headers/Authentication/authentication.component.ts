@@ -3,6 +3,7 @@ import { Input, Output, EventEmitter } from '@angular/core';
 import { AuthenticationService } from '../../Services/authentication.service';
 // import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Router } from '@angular/router';
+import { LocalStoreService } from '../../Services/localstorage.service';
 
 @Component({
     selector: 'autentication-zone',
@@ -26,14 +27,18 @@ export class AuthenticationComponent implements  OnInit{
     private registerComplited: boolean = false;
     userName: string;
 
-    constructor(private authenticationService: AuthenticationService, private router: Router) {
+    constructor(
+        private authenticationService: AuthenticationService,
+        private router: Router,
+        private localStoreService: LocalStoreService) {
         
      }
     
 
 
     Logout() {        
-        this.authenticationService.DeleteCookie();     
+        this.authenticationService.DeleteCookie();
+        this.localStoreService.ClearLocalStorage(this.userName);
         this.router.navigate(['']);
     }
 }

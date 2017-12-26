@@ -34,7 +34,8 @@ export class OrderService {
             listProductsInCookie.push(tmpProduct);
         }
 
-        this.productService.GetProductsForRequest(listProductsInCookie);
+        //this.productService.GetProductsForRequest(listProductsInCookie);
+        
         // //сравнить и создать список продуктов
         // //отпривать данный список, чтобы он мне вернул его из бд
         

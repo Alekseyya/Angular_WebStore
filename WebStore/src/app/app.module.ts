@@ -27,6 +27,8 @@ import { CookieService } from './Services/cookie.service'
 
 import { FilterMarkService } from './Services/filter-mark.service';
 
+import {LocalStoreService } from './Services/localstorage.service'
+
 import { ProductService } from './Services/product.service';
 import { AuthenticationService} from './Services/authentication.service';
 import {AuthenticationComponent } from './Headers/Authentication/authentication.component';
@@ -75,7 +77,7 @@ const appRoutes: Routes =[
     BrowserModule, FormsModule, RouterModule.forRoot(appRoutes),
     HttpClientModule, ReactiveFormsModule
   ],
-  providers: [AuthenticationService, ProductService, 
+  providers: [AuthenticationService, ProductService, LocalStoreService,
     FilterMarkService, CartService, UserService,CookieService, OrderService],
   bootstrap: [AppComponent]  
 })
